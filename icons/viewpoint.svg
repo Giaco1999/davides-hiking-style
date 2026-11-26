@@ -1,1 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path d="M8 12 L2.6 9.4 M8 12 L3.6 5.6 M8 12 L8 3.4 M8 12 L12.4 5.6 M8 12 L13.4 9.4" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><path d="M8 12 L2.6 9.4 M8 12 L3.6 5.6 M8 12 L8 3.4 M8 12 L12.4 5.6 M8 12 L13.4 9.4" stroke="#c8102e" stroke-width="1.1" stroke-linecap="round"/><circle cx="8" cy="12" r="1.7" fill="#c8102e" stroke="#fff" stroke-width="0.9"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+  <g stroke-linecap="round" fill="none">
+    <path d="M13.00 9.00 L16.60 9.00 M12.64 11.10 L14.54 12.20 M11.00 12.46 L12.80 15.58 M9.00 13.20 L9.00 15.40 M7.00 12.46 L5.20 15.58 M5.36 11.10 L3.46 12.20 M5.00 9.00 L1.40 9.00 M5.36 6.90 L3.46 5.80 M7.00 5.54 L5.20 2.42 M9.00 4.80 L9.00 2.60 M11.00 5.54 L12.80 2.42 M12.64 6.90 L14.54 5.80" stroke="#ffffff" stroke-width="3"/>
+    <path d="M13.00 9.00 L16.60 9.00 M12.64 11.10 L14.54 12.20 M11.00 12.46 L12.80 15.58 M9.00 13.20 L9.00 15.40 M7.00 12.46 L5.20 15.58 M5.36 11.10 L3.46 12.20 M5.00 9.00 L1.40 9.00 M5.36 6.90 L3.46 5.80 M7.00 5.54 L5.20 2.42 M9.00 4.80 L9.00 2.60 M11.00 5.54 L12.80 2.42 M12.64 6.90 L14.54 5.80" stroke="#c8102e" stroke-width="1.3"/>
+  </g>
+  <circle cx="9" cy="9" r="2.4" fill="#c8102e" stroke="#ffffff" stroke-width="1"/>
+</svg>
