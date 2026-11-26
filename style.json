@@ -130,16 +130,6 @@
       "paint": {"fill-color": "#eef6fb"}
     },
     {
-      "id": "glacier-outline",
-      "type": "line",
-      "source": "omt",
-      "source-layer": "landcover",
-      "minzoom": 9,
-      "filter": ["any", ["==", ["get", "class"], "ice"], ["==", ["get", "subclass"], "glacier"]],
-      "layout": {"line-join": "round"},
-      "paint": {"line-color": "#4f8fc0", "line-width": ["interpolate", ["linear"], ["zoom"], 9, 0.8, 12, 1.4, 15, 2.2]}
-    },
-    {
       "id": "hillshade",
       "type": "hillshade",
       "source": "dem",
