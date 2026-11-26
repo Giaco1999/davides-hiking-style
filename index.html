@@ -90,13 +90,13 @@
     .search input {
       width: 100%; box-sizing: border-box; padding: 8px 12px;
       font: 14px/1.3 system-ui, sans-serif; color: #2b2a28;
-      background: rgba(248, 251, 253, 0.97); border: 1px solid #c9d3dc; border-radius: 6px;
-      box-shadow: 0 1px 4px rgba(0,0,0,.18); outline: none;
+      background: var(--ice); border: 1px solid transparent; border-radius: 6px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.22); outline: none;
     }
-    .search input:focus { border-color: #8aa0b2; }
+    .search input:focus { border-color: #c9d3dc; }
     .search ul {
       list-style: none; margin: 4px 0 0; padding: 4px 0; display: none;
-      background: rgba(248, 251, 253, 0.98); border-radius: 6px;
+      background: var(--ice); border-radius: 6px;
       box-shadow: 0 1px 4px rgba(0,0,0,.22); max-height: 50vh; overflow-y: auto;
     }
     .search ul.open { display: block; }
@@ -161,7 +161,7 @@
       <ul>
         <li>Roads: motorways pink, state roads orange, provincial roads yellow, the rest white; every road has a dark edge, like the forest roads.</li>
         <li>Forest roads: double line with a tan centre from z12, drawn under the roads. Unmarked paths: brown dash.</li>
-        <li>Railways: solid black for running lines, thin grey for yards and sidings. Tunnels: pale fill with dashed black edges.</li>
+        <li>Railways (Planet v4, from z7): solid black for running lines, thin grey for yards and sidings. Tunnels: pale fill with dashed black edges.</li>
       </ul>
 
       <h2>Relief</h2>
@@ -182,7 +182,7 @@
         <li>Lakes are a key landmark for reading a territory, especially in the overview at small scales: one horizontal name per lake, sized by area, with the highest label priority.</li>
         <li>Peaks: shown by rank and by height (over 2,700 m from z8, 2,400 m from z10, 2,000 m from z11), all from z12; higher peaks win, and names grow with height (under 1,500 m, 1,500–2,500, 2,500–3,000, over 3,000 m). Peak names take priority over the trails around them, so summits reached by a trail always keep their name.</li>
         <li>Country names at z6–8 in wide-spaced grey capitals, placed by hand in open areas of the map.</li>
-        <li>Custom icons: huts from z11, bivouacs from z12, viewpoints and caves from z13. Their names avoid trails, using invisible collision symbols along them.</li>
+        <li>Custom icons: huts and bivouacs from z12 (Planet v4), other mountain shelters from z14, viewpoints and caves from z13. Their names avoid trails, using invisible collision symbols along them.</li>
         <li>Trail numbers and river names sit above their line.</li>
       </ul>
 

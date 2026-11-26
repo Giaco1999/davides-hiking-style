@@ -684,25 +684,6 @@
       }
     },
     {
-      "id": "tunnel-railway",
-      "type": "line",
-      "source": "omt",
-      "source-layer": "transportation",
-      "minzoom": 7,
-      "filter": [
-        "all",
-        ["==", ["get", "class"], "rail"],
-        ["==", ["get", "brunnel"], "tunnel"],
-        ["!", ["has", "service"]]
-      ],
-      "paint": {
-        "line-color": "#2b2a28",
-        "line-opacity": 0.75,
-        "line-dasharray": [3, 2],
-        "line-width": ["interpolate", ["linear"], ["zoom"], 7, 0.6, 8, 0.8, 12, 1.5, 14, 2, 17, 3]
-      }
-    },
-    {
       "id": "track-casing",
       "type": "line",
       "source": "omt",
@@ -1029,26 +1010,47 @@
     {
       "id": "railway-service",
       "type": "line",
-      "source": "omt",
-      "source-layer": "transportation",
+      "source": "v4",
+      "source-layer": "railway",
       "minzoom": 13,
       "filter": [
         "all",
-        ["all", ["==", ["get", "class"], "rail"], ["!=", ["get", "brunnel"], "tunnel"]],
-        ["has", "service"]
+        ["all", ["==", ["get", "class"], "rail"], ["!", ["has", "construction"]]],
+        ["has", "service"],
+        ["!", ["==", ["coalesce", ["get", "brunnel"], ""], "tunnel"]]
       ],
       "paint": {"line-color": "#6e6a64", "line-width": ["interpolate", ["linear"], ["zoom"], 13, 0.5, 16, 1]}
     },
     {
-      "id": "railway",
+      "id": "tunnel-railway",
       "type": "line",
-      "source": "omt",
-      "source-layer": "transportation",
+      "source": "v4",
+      "source-layer": "railway",
       "minzoom": 7,
       "filter": [
         "all",
-        ["all", ["==", ["get", "class"], "rail"], ["!=", ["get", "brunnel"], "tunnel"]],
-        ["!", ["has", "service"]]
+        ["all", ["==", ["get", "class"], "rail"], ["!", ["has", "construction"]]],
+        ["!", ["has", "service"]],
+        ["==", ["coalesce", ["get", "brunnel"], ""], "tunnel"]
+      ],
+      "paint": {
+        "line-color": "#2b2a28",
+        "line-opacity": 0.75,
+        "line-dasharray": [3, 2],
+        "line-width": ["interpolate", ["linear"], ["zoom"], 7, 0.6, 8, 0.8, 12, 1.5, 14, 2, 17, 3]
+      }
+    },
+    {
+      "id": "railway",
+      "type": "line",
+      "source": "v4",
+      "source-layer": "railway",
+      "minzoom": 7,
+      "filter": [
+        "all",
+        ["all", ["==", ["get", "class"], "rail"], ["!", ["has", "construction"]]],
+        ["!", ["has", "service"]],
+        ["!", ["==", ["coalesce", ["get", "brunnel"], ""], "tunnel"]]
       ],
       "paint": {
         "line-color": "#1f1d1b",
@@ -1464,14 +1466,14 @@
       "paint": {"text-color": "#2b2a28", "text-halo-color": "#f6f2e9", "text-halo-width": 1.4, "text-halo-blur": 0.3}
     },
     {
-      "id": "poi-bivouac",
+      "id": "poi-shelter",
       "type": "symbol",
       "source": "omt",
       "source-layer": "poi",
-      "minzoom": 12,
+      "minzoom": 14,
       "filter": [
         "any",
-        ["in", ["coalesce", ["get", "subclass"], ""], ["literal", ["wilderness_hut", "basic_hut"]]],
+        ["in", ["coalesce", ["get", "subclass"], ""], ["literal", ["basic_hut"]]],
         [
           "all",
           ["in", ["get", "class"], ["literal", ["shelter"]]],
@@ -1491,6 +1493,43 @@
             ["in", "bivak", ["downcase", ["coalesce", ["get", "name"], ""]]]
           ]
         ]
+      ],
+      "layout": {
+        "icon-image": "bivouac",
+        "icon-size": ["interpolate", ["linear"], ["zoom"], 14, 0.85, 15, 1],
+        "icon-padding": 1,
+        "icon-allow-overlap": true,
+        "text-field": ["step", ["zoom"], "", 14, ["coalesce", ["get", "name"], ""]],
+        "text-font": ["Noto Sans Regular"],
+        "text-size": ["interpolate", ["linear"], ["zoom"], 14, 10, 16, 13],
+        "text-max-width": 8,
+        "text-variable-anchor": [
+          "left",
+          "right",
+          "top",
+          "bottom",
+          "top-left",
+          "top-right",
+          "bottom-left",
+          "bottom-right"
+        ],
+        "text-radial-offset": 0.95,
+        "text-justify": "auto",
+        "text-optional": true,
+        "symbol-sort-key": 1
+      },
+      "paint": {"text-color": "#b3121b", "text-halo-color": "#f6f2e9", "text-halo-width": 1.4, "text-halo-blur": 0.3}
+    },
+    {
+      "id": "poi-bivouac",
+      "type": "symbol",
+      "source": "v4",
+      "source-layer": "poi_tourism",
+      "minzoom": 12,
+      "filter": [
+        "all",
+        ["==", ["get", "class"], "wilderness_hut"],
+        ["!=", ["coalesce", ["get", "subclass"], ""], "ruins"]
       ],
       "layout": {
         "icon-image": "bivouac",
@@ -1521,13 +1560,13 @@
     {
       "id": "poi-hut",
       "type": "symbol",
-      "source": "omt",
-      "source-layer": "poi",
-      "minzoom": 11,
-      "filter": ["==", ["get", "subclass"], "alpine_hut"],
+      "source": "v4",
+      "source-layer": "poi_tourism",
+      "minzoom": 12,
+      "filter": ["all", ["==", ["get", "class"], "alpine_hut"], ["!=", ["coalesce", ["get", "subclass"], ""], "ruins"]],
       "layout": {
         "icon-image": "hut",
-        "icon-size": ["interpolate", ["linear"], ["zoom"], 11, 0.65, 15, 1.05],
+        "icon-size": ["interpolate", ["linear"], ["zoom"], 12, 0.7, 15, 1.05],
         "icon-padding": 1,
         "icon-allow-overlap": true,
         "text-field": ["step", ["zoom"], "", 13, ["coalesce", ["get", "name"], ""]],

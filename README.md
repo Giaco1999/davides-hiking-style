@@ -11,8 +11,8 @@ Live map: https://giaco1999.github.io/davides-hiking-style/
 
 | Source | MapTiler tileset | Used for |
 | --- | --- | --- |
-| `omt` | Planet v3 | land cover, water, roads, paths, peaks, places, huts |
-| `v4` | Planet v4 | buildings, lake labels |
+| `omt` | Planet v3 | land cover, water, roads, paths, peaks, places, other shelters |
+| `v4` | Planet v4 | buildings, railways, huts and bivouacs, lake labels, overview woods |
 | `outdoor` | Outdoor | marked trails, difficulty, trail numbers, viewpoints, caves |
 | `contours` | Contours | contour lines |
 | `dem` | Terrain RGB | hillshade and 3D terrain |
