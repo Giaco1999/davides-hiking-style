@@ -16,7 +16,7 @@
     :root { --ice: rgba(248, 251, 253, 0.97); --line: #dfe6ec; }
     .panel, .notes-panel {
       position: absolute; bottom: 46px; z-index: 2;
-      max-height: calc(100vh - 70px);
+      max-height: calc(100vh - 110px);   /* stays clear of the search box */
       display: flex; flex-direction: column;
       background: var(--ice); border-radius: 6px;
       box-shadow: 0 1px 4px rgba(0,0,0,.22);
@@ -167,14 +167,14 @@
       <h2>Relief</h2>
       <ul>
         <li>Hillshade lit from the north-west, lighter at small scales.</li>
-        <li>Contours: index lines heavier, every 100 m from z14; blue on glaciers.</li>
+        <li>Contours: index lines heavier, every 100 m from z14; blue on glaciers, with a firm blue glacier edge.</li>
       </ul>
 
       <h2>Areas</h2>
       <ul>
         <li>Woods from z5 (Planet v4 below z8).</li>
         <li>Built-up tint from z7; buildings merged into masses z12–14, footprints from z14.</li>
-        <li>Protected areas from z9: purple edge, translucent inner band, name along the boundary. Natura 2000 sites excluded.</li>
+        <li>Protected areas from z10: purple edge, translucent inner band, name along the boundary. Natura 2000 sites excluded.</li>
       </ul>
 
       <h2>Labels</h2>
@@ -188,10 +188,10 @@
 
       <h2>Where to look</h2>
       <ul class="spots">
-        <li><a href="#15/46.4008/13.0802">Monte Amariana</a>: via ferrata.</li>
+        <li><a href="#15/46.4008/13.0802">Monte Amariana</a> (near Tolmezzo): via ferrata.</li>
         <li><a href="#14/46.618/12.3">Tre Cime di Lavaredo</a>: huts, trails, trail numbers, lakes.</li>
         <li><a href="#13/46.51/12.235">Sorapiss</a>: bivouacs, alpine routes, Lago di Sorapiss.</li>
-        <li><a href="#14/46.434/11.856">Marmolada</a>: glacier contours.</li>
+        <li><a href="#14/46.434/11.856">Marmolada</a>: glacier edge and contours.</li>
         <li><a href="#12.5/46.0637/13.2346">Udine</a>: built-up masses, state roads, railways.</li>
         <li><a href="#8/45.95/11.6">The Dolomites and Lake Garda</a>: the overview.</li>
       </ul>

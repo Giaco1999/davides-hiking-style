@@ -104,7 +104,20 @@
       "source": "omt",
       "source-layer": "landcover",
       "filter": ["any", ["==", ["get", "class"], "ice"], ["==", ["get", "subclass"], "glacier"]],
-      "paint": {"fill-color": "#eef6fb", "fill-outline-color": "#7fb0d3"}
+      "paint": {"fill-color": "#eef6fb"}
+    },
+    {
+      "id": "glacier-outline",
+      "type": "line",
+      "source": "omt",
+      "source-layer": "landcover",
+      "minzoom": 9,
+      "filter": ["any", ["==", ["get", "class"], "ice"], ["==", ["get", "subclass"], "glacier"]],
+      "layout": {"line-join": "round"},
+      "paint": {
+        "line-color": "#4f8fc0",
+        "line-width": ["interpolate", ["linear"], ["zoom"], 9, 0.8, 12, 1.4, 15, 2.2]
+      }
     },
     {
       "id": "hillshade",
@@ -334,7 +347,7 @@
       "type": "line",
       "source": "omt",
       "source-layer": "park",
-      "minzoom": 9,
+      "minzoom": 10,
       "filter": [
         "all",
         ["==", ["geometry-type"], "Polygon"],
@@ -374,8 +387,8 @@
       "paint": {
         "line-color": "#7b3f98",
         "line-opacity": 0.2,
-        "line-width": ["interpolate", ["linear"], ["zoom"], 9, 2.5, 11, 4, 14, 7, 17, 10],
-        "line-offset": ["interpolate", ["linear"], ["zoom"], 9, 1.25, 11, 2, 14, 3.5, 17, 5]
+        "line-width": ["interpolate", ["linear"], ["zoom"], 10, 3, 11, 4, 14, 7, 17, 10],
+        "line-offset": ["interpolate", ["linear"], ["zoom"], 10, 1.5, 11, 2, 14, 3.5, 17, 5]
       }
     },
     {
@@ -383,7 +396,7 @@
       "type": "line",
       "source": "omt",
       "source-layer": "park",
-      "minzoom": 9,
+      "minzoom": 10,
       "filter": [
         "all",
         ["==", ["geometry-type"], "Polygon"],
@@ -423,7 +436,7 @@
       "paint": {
         "line-color": "#7b3f98",
         "line-opacity": 0.8,
-        "line-width": ["interpolate", ["linear"], ["zoom"], 9, 0.7, 14, 1.3, 17, 1.8]
+        "line-width": ["interpolate", ["linear"], ["zoom"], 10, 0.8, 14, 1.3, 17, 1.8]
       }
     },
     {
@@ -1349,7 +1362,7 @@
       "type": "symbol",
       "source": "omt",
       "source-layer": "park",
-      "minzoom": 9,
+      "minzoom": 10,
       "filter": [
         "all",
         ["==", ["geometry-type"], "Point"],
@@ -1389,7 +1402,7 @@
       "layout": {
         "text-field": ["coalesce", ["get", "name"], ""],
         "text-font": ["Noto Sans Italic"],
-        "text-size": ["interpolate", ["linear"], ["zoom"], 9, 10, 12, 13, 15, 14],
+        "text-size": ["interpolate", ["linear"], ["zoom"], 10, 10.5, 12, 13, 15, 14],
         "text-max-width": 8,
         "text-letter-spacing": 0.05
       },
@@ -1685,13 +1698,15 @@
       "filter": ["==", ["get", "class"], "via_ferrata"],
       "layout": {
         "symbol-placement": "line",
-        "symbol-spacing": ["interpolate", ["linear"], ["zoom"], 12, 160, 17, 380],
+        "symbol-spacing": ["interpolate", ["linear"], ["zoom"], 12, 110, 17, 260],
         "text-field": "Via ferrata",
         "text-font": ["Noto Sans Italic"],
-        "text-size": ["interpolate", ["linear"], ["zoom"], 12, 9.5, 16, 12.5],
-        "text-offset": [0, -1.1],
-        "text-letter-spacing": 0.02,
-        "text-max-angle": 70,
+        "text-size": ["interpolate", ["linear"], ["zoom"], 12, 9.5, 16, 12],
+        "text-offset": [0, -1.2],
+        "text-letter-spacing": 0,
+        "text-max-angle": 90,
+        "text-padding": 0,
+        "text-keep-upright": true,
         "text-rotation-alignment": "map",
         "text-pitch-alignment": "viewport"
       },
