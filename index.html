@@ -65,12 +65,41 @@
       font: 600 12px/1.4 system-ui, sans-serif; box-shadow: 0 0 0 2px rgba(0,0,0,.1);
       text-align: center;
     }
+    /* scale bar in the bottom-right corner, to the right of the attribution */
+    .maplibregl-ctrl-bottom-right .maplibregl-ctrl-scale {
+      position: absolute; right: 0; bottom: 0; margin: 0 10px 10px 0;
+      background: rgba(248, 251, 253, 0.9);
+    }
+    .maplibregl-ctrl-bottom-right .maplibregl-ctrl-attrib { margin-right: 122px; }
+
+    /* ---- Place search, top right */
+    .search { position: absolute; top: 10px; right: 10px; z-index: 3; width: 280px; }
+    .search input {
+      width: 100%; box-sizing: border-box; padding: 8px 12px;
+      font: 14px/1.3 system-ui, sans-serif; color: #2b2a28;
+      background: rgba(248, 251, 253, 0.97); border: 1px solid #c9d3dc; border-radius: 6px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.18); outline: none;
+    }
+    .search input:focus { border-color: #8aa0b2; }
+    .search ul {
+      list-style: none; margin: 4px 0 0; padding: 4px 0; display: none;
+      background: rgba(248, 251, 253, 0.98); border-radius: 6px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.22); max-height: 50vh; overflow-y: auto;
+    }
+    .search ul.open { display: block; }
+    .search li { padding: 6px 12px; cursor: pointer; }
+    .search li:hover, .search li.active { background: #eaf0f5; }
+    .search li small { display: block; color: #6b6660; font-size: 11.5px; }
     .mt-logo { position: absolute; left: 10px; bottom: 10px; z-index: 2; }
     .mt-logo img { width: 100px; display: block; }
   </style>
 </head>
 <body>
 <div id="map"></div>
+<div class="search">
+  <input id="searchBox" type="search" placeholder="Search places…" autocomplete="off" aria-label="Search places">
+  <ul id="searchResults"></ul>
+</div>
 <a class="mt-logo" href="https://www.maptiler.com"><img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
 
 <div class="panel" id="panel">
@@ -81,7 +110,7 @@
     <ul class="legend">
       <li><svg width="34" height="6"><line x1="0" y1="3" x2="34" y2="3" stroke="#d0202a" stroke-width="2" stroke-dasharray="5 4"/></svg>Marked trail</li>
       <li><svg width="34" height="6"><line x1="0" y1="3" x2="34" y2="3" stroke="#d0202a" stroke-width="2.4" stroke-dasharray="1.3 3"/></svg>Alpine trail</li>
-      <li><svg width="34" height="16"><line x1="1" y1="8" x2="33" y2="8" stroke="#d0202a" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0.1 5"/><image href="icons/carabiner.svg" x="11" y="0" width="12" height="16"/></svg>Via ferrata</li>
+      <li><svg width="34" height="22"><line x1="1" y1="11" x2="33" y2="11" stroke="#d0202a" stroke-width="3.4" stroke-linecap="round" stroke-dasharray="0.1 5.6"/><image href="icons/carabiner.svg" x="7" y="0" width="22" height="22"/></svg>Via ferrata</li>
       <li><svg width="34" height="8"><line x1="0" y1="4" x2="34" y2="4" stroke="#5a4632" stroke-opacity="0.85" stroke-width="4"/><line x1="0" y1="4" x2="34" y2="4" stroke="#ecdcbd" stroke-width="2"/></svg>Forest road, track</li>
       <li><svg width="34" height="6"><line x1="0" y1="3" x2="34" y2="3" stroke="#6b4a2b" stroke-width="1.2" stroke-dasharray="5 3"/></svg>Unmarked path</li>
       <li><svg width="34" height="10"><line x1="0" y1="5" x2="34" y2="5" stroke="#f4c4c6" stroke-width="7" stroke-linecap="round"/><line x1="0" y1="5" x2="34" y2="5" stroke="#d0202a" stroke-width="2" stroke-dasharray="4 3"/></svg>National long-distance trail</li>
@@ -106,7 +135,7 @@
       <ul>
         <li>Red is used only for marked trails.</li>
         <li>One red, two dash patterns: dashed for marked trails, dotted for alpine routes (OSM sac_scale T4–T6).</li>
-        <li>Via ferrata: dense red dots with a carabiner icon every few dozen pixels.</li>
+        <li>Via ferrata: big red dots on a white band, carabiner icons along the line and the words “Via ferrata” written along it from z13.</li>
         <li>National long-distance trails: thin red line z7–10, pale band under the trail from z11.</li>
       </ul>
 
@@ -132,12 +161,12 @@
 
       <h2>Labels</h2>
       <ul>
-        <li>Lakes: one horizontal name per lake, sized by area, highest priority.</li>
-        <li>Peaks: main ones from z8, all from z12; names win over trails.</li>
+        <li>Lakes are a key landmark for reading a territory, especially in the overview at small scales: one horizontal name per lake, sized by area, with the highest label priority.</li>
+        <li>Peaks: main ones from z8, all from z12. Peak names take priority over the trails around them, so summits reached by a trail always keep their name.</li>
         <li>Hut and bivouac names avoid trails, using invisible collision symbols along them.</li>
         <li>Trail numbers and river names sit above their line.</li>
       </ul>
-      <p class="muted">Style code written with Claude (Anthropic); cartographic choices and review are mine.</p>
+      <p class="muted">The work was significantly sped up by using Claude (Anthropic) to write the style code. The cartographic choices, and the review of every result, are mine.</p>
   </div>
 </div>
 
@@ -217,10 +246,63 @@
 
       // bottom right, stacked upwards from the attribution:
       // scale, zoom and compass, 3D, current zoom
-      map.addControl(new maplibregl.ScaleControl({ unit: "metric" }), "bottom-right");
+      map.addControl(new maplibregl.ScaleControl({ unit: "metric", maxWidth: 100 }), "bottom-right");
       map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), "bottom-right");
       map.addControl(new Toggle3D(), "bottom-right");
       map.addControl(new ZoomBadge(), "bottom-right");
+
+      // ---- Place search (MapTiler Geocoding API), limited to the map's area
+      const box = document.getElementById("searchBox");
+      const list = document.getElementById("searchResults");
+      const BBOX = "4.5,42.0,21.5,50.0";
+      let timer = null, results = [], active = -1;
+      const close = () => { list.classList.remove("open"); active = -1; };
+      const go = (f) => {
+        if (!f) return;
+        if (f.bbox && f.bbox[0] !== f.bbox[2]) {
+          map.fitBounds([[f.bbox[0], f.bbox[1]], [f.bbox[2], f.bbox[3]]], { maxZoom: 15, padding: 40 });
+        } else {
+          map.flyTo({ center: f.center, zoom: 14 });
+        }
+        box.value = f.text || f.place_name;
+        close();
+      };
+      const render = () => {
+        list.innerHTML = "";
+        results.forEach((f, i) => {
+          const li = document.createElement("li");
+          if (i === active) li.className = "active";
+          const rest = (f.place_name || "").split(",").slice(1).join(",").trim();
+          li.innerHTML = "";
+          li.append(f.text || f.place_name);
+          if (rest) { const sm = document.createElement("small"); sm.textContent = rest; li.append(sm); }
+          li.addEventListener("mousedown", (e) => { e.preventDefault(); go(f); });
+          list.append(li);
+        });
+        list.classList.toggle("open", results.length > 0);
+      };
+      const search = (q) => {
+        const url = "https://api.maptiler.com/geocoding/" + encodeURIComponent(q) +
+          ".json?key=" + window.MAPTILER_KEY + "&bbox=" + BBOX + "&limit=6&autocomplete=true";
+        fetch(url).then(r => r.json()).then(j => {
+          if (box.value.trim() !== q) return;
+          results = j.features || []; active = -1; render();
+        }).catch(() => { results = []; render(); });
+      };
+      box.addEventListener("input", () => {
+        clearTimeout(timer);
+        const q = box.value.trim();
+        if (q.length < 2) { results = []; render(); return; }
+        timer = setTimeout(() => search(q), 300);
+      });
+      box.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowDown") { active = Math.min(active + 1, results.length - 1); render(); e.preventDefault(); }
+        else if (e.key === "ArrowUp") { active = Math.max(active - 1, 0); render(); e.preventDefault(); }
+        else if (e.key === "Enter") { go(results[active >= 0 ? active : 0]); }
+        else if (e.key === "Escape") { close(); box.blur(); }
+      });
+      box.addEventListener("blur", () => setTimeout(close, 150));
+      box.addEventListener("focus", () => { if (results.length) render(); });
     });
 </script>
 </body>

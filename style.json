@@ -1224,6 +1224,19 @@
       }
     },
     {
+      "id": "via-ferrata-knockout",
+      "type": "line",
+      "source": "outdoor",
+      "source-layer": "trail",
+      "minzoom": 12,
+      "filter": ["==", ["get", "class"], "via_ferrata"],
+      "layout": {"line-join": "round", "line-cap": "round"},
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": ["interpolate", ["linear"], ["zoom"], 12, 4.5, 14, 6, 17, 8]
+      }
+    },
+    {
       "id": "via-ferrata",
       "type": "line",
       "source": "outdoor",
@@ -1233,8 +1246,8 @@
       "layout": {"line-join": "round", "line-cap": "round"},
       "paint": {
         "line-color": "#d0202a",
-        "line-dasharray": [0.1, 1.9],
-        "line-width": ["interpolate", ["linear"], ["zoom"], 12, 2, 14, 2.8, 17, 4]
+        "line-dasharray": [0.05, 1.7],
+        "line-width": ["interpolate", ["linear"], ["zoom"], 12, 3, 14, 4, 17, 5.5]
       }
     },
     {
@@ -1246,9 +1259,9 @@
       "filter": ["==", ["get", "class"], "via_ferrata"],
       "layout": {
         "symbol-placement": "line",
-        "symbol-spacing": ["interpolate", ["linear"], ["zoom"], 12, 36, 15, 48, 17, 64],
+        "symbol-spacing": ["interpolate", ["linear"], ["zoom"], 12, 60, 15, 80, 17, 100],
         "icon-image": "carabiner",
-        "icon-size": ["interpolate", ["linear"], ["zoom"], 12, 0.8, 15, 1, 17, 1.15],
+        "icon-size": ["interpolate", ["linear"], ["zoom"], 12, 0.75, 15, 0.95, 17, 1.1],
         "icon-rotation-alignment": "viewport",
         "icon-allow-overlap": true,
         "icon-ignore-placement": true
@@ -1653,6 +1666,27 @@
         "icon-rotation-alignment": "map"
       },
       "paint": {"icon-opacity": 0}
+    },
+    {
+      "id": "via-ferrata-label",
+      "type": "symbol",
+      "source": "outdoor",
+      "source-layer": "trail",
+      "minzoom": 13,
+      "filter": ["==", ["get", "class"], "via_ferrata"],
+      "layout": {
+        "symbol-placement": "line",
+        "symbol-spacing": ["interpolate", ["linear"], ["zoom"], 13, 260, 17, 420],
+        "text-field": "Via ferrata",
+        "text-font": ["Noto Sans Italic"],
+        "text-size": ["interpolate", ["linear"], ["zoom"], 13, 10, 16, 12.5],
+        "text-offset": [0, -1.1],
+        "text-letter-spacing": 0.04,
+        "text-max-angle": 35,
+        "text-rotation-alignment": "map",
+        "text-pitch-alignment": "viewport"
+      },
+      "paint": {"text-color": "#d0202a", "text-halo-color": "#ffffff", "text-halo-width": 1.6}
     },
     {
       "id": "trail-ref",
