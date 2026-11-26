@@ -110,7 +110,7 @@
 <body>
 <div id="map"></div>
 <div class="search">
-  <input id="searchBox" type="search" placeholder="Search places…" autocomplete="off" aria-label="Search places">
+  <input id="searchBox" type="search" placeholder="Search places or coordinates…" autocomplete="off" aria-label="Search places">
   <ul id="searchResults"></ul>
 </div>
 <a class="mt-logo" href="https://www.maptiler.com"><img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
@@ -123,11 +123,11 @@
     <ul class="legend">
       <li><svg width="34" height="6"><line x1="0" y1="3" x2="34" y2="3" stroke="#d0202a" stroke-width="2" stroke-dasharray="5 4"/></svg>Marked trail</li>
       <li><svg width="34" height="6"><line x1="0" y1="3" x2="34" y2="3" stroke="#d0202a" stroke-width="2.4" stroke-dasharray="1.3 3"/></svg>Alpine trail</li>
-      <li><svg width="34" height="22"><line x1="1" y1="11" x2="33" y2="11" stroke="#d0202a" stroke-width="3.4" stroke-linecap="round" stroke-dasharray="0.1 5.6"/><image href="icons/carabiner.svg" x="7" y="0" width="22" height="22"/></svg>Via ferrata</li>
-      <li><svg width="34" height="10"><line x1="0" y1="5" x2="34" y2="5" stroke="#c76f8b" stroke-width="7"/><line x1="0" y1="5" x2="34" y2="5" stroke="#f4a7bd" stroke-width="5"/></svg>Motorway</li>
-      <li><svg width="34" height="10"><line x1="0" y1="5" x2="34" y2="5" stroke="#a08f7a" stroke-width="6"/><line x1="0" y1="5" x2="34" y2="5" stroke="#f39a4c" stroke-width="4"/></svg>State road</li>
-      <li><svg width="34" height="10"><line x1="0" y1="5" x2="34" y2="5" stroke="#a08f7a" stroke-width="6"/><line x1="0" y1="5" x2="34" y2="5" stroke="#f5cf3d" stroke-width="4"/></svg>Provincial road</li>
-      <li><svg width="34" height="10"><line x1="0" y1="5" x2="34" y2="5" stroke="#a08f7a" stroke-width="5"/><line x1="0" y1="5" x2="34" y2="5" stroke="#ffffff" stroke-width="3"/></svg>Other road</li>
+      <li><svg width="34" height="12"><line x1="0" y1="6" x2="34" y2="6" stroke="#d0202a" stroke-width="1.8"/><line x1="2" y1="6" x2="34" y2="6" stroke="#d0202a" stroke-width="9" stroke-dasharray="1 5"/></svg>Via ferrata</li>
+      <li><svg width="34" height="10"><line x1="0" y1="5" x2="34" y2="5" stroke="#3a3430" stroke-width="7"/><line x1="0" y1="5" x2="34" y2="5" stroke="#f4a7bd" stroke-width="5"/></svg>Motorway</li>
+      <li><svg width="34" height="10"><line x1="0" y1="5" x2="34" y2="5" stroke="#3a3430" stroke-width="6"/><line x1="0" y1="5" x2="34" y2="5" stroke="#f39a4c" stroke-width="4"/></svg>State road</li>
+      <li><svg width="34" height="10"><line x1="0" y1="5" x2="34" y2="5" stroke="#3a3430" stroke-width="6"/><line x1="0" y1="5" x2="34" y2="5" stroke="#f5cf3d" stroke-width="4"/></svg>Provincial road</li>
+      <li><svg width="34" height="10"><line x1="0" y1="5" x2="34" y2="5" stroke="#3a3430" stroke-width="5"/><line x1="0" y1="5" x2="34" y2="5" stroke="#ffffff" stroke-width="3"/></svg>Other road</li>
       <li><svg width="34" height="10"><line x1="0" y1="5" x2="34" y2="5" stroke="#2b2a28" stroke-opacity="0.85" stroke-width="6" stroke-dasharray="4 2.5"/><line x1="0" y1="5" x2="34" y2="5" stroke="#fbd6b4" stroke-width="4"/></svg>Tunnel</li>
       <li><svg width="34" height="8"><line x1="0" y1="4" x2="34" y2="4" stroke="#5a4632" stroke-opacity="0.85" stroke-width="4"/><line x1="0" y1="4" x2="34" y2="4" stroke="#ecdcbd" stroke-width="2"/></svg>Forest road, track</li>
       <li><svg width="34" height="6"><line x1="0" y1="3" x2="34" y2="3" stroke="#6b4a2b" stroke-width="1.2" stroke-dasharray="5 3"/></svg>Unmarked path</li>
@@ -153,15 +153,15 @@
       <ul>
         <li>Red is reserved for the trail network and the points along it (huts, bivouacs, viewpoints).</li>
         <li>One red, two dash patterns: dashed for marked trails, dotted for alpine routes (OSM sac_scale T4–T6).</li>
-        <li>Via ferrata: big red dots on a white band, carabiner icons along the line and the words “Via ferrata” written along it from z12.</li>
+        <li>Via ferrata: red line with cross-ticks, with “Via ferrata” written along it from z12.</li>
         <li>National long-distance trails: thin red line z7–10, pale band under the trail from z11.</li>
       </ul>
 
       <h2>Roads and lines</h2>
       <ul>
-        <li>Roads: motorways pink, state roads orange, provincial roads yellow, the rest white and narrow.</li>
+        <li>Roads: motorways pink, state roads orange, provincial roads yellow, the rest white; every road has a dark edge, like the forest roads.</li>
         <li>Forest roads: double line with a tan centre from z12, drawn under the roads. Unmarked paths: brown dash.</li>
-        <li>Railways: solid black. Tunnels: pale fill with dashed black edges.</li>
+        <li>Railways: solid black for running lines, thin grey for yards and sidings. Tunnels: pale fill with dashed black edges.</li>
       </ul>
 
       <h2>Relief</h2>
@@ -180,7 +180,7 @@
       <h2>Labels</h2>
       <ul>
         <li>Lakes are a key landmark for reading a territory, especially in the overview at small scales: one horizontal name per lake, sized by area, with the highest label priority.</li>
-        <li>Peaks: shown by rank and by height (over 2,700 m from z8, 2,400 m from z10, 2,000 m from z11), all from z12; higher peaks win. Peak names take priority over the trails around them, so summits reached by a trail always keep their name.</li>
+        <li>Peaks: shown by rank and by height (over 2,700 m from z8, 2,400 m from z10, 2,000 m from z11), all from z12; higher peaks win, and names grow with height (under 1,500 m, 1,500–2,500, 2,500–3,000, over 3,000 m). Peak names take priority over the trails around them, so summits reached by a trail always keep their name.</li>
         <li>Custom icons: huts from z11, bivouacs from z12, viewpoints and caves from z13. Their names avoid trails, using invisible collision symbols along them.</li>
         <li>Country and region names only in the overview (z5–9), in wide-spaced grey capitals.</li>
         <li>Trail numbers and river names sit above their line.</li>
@@ -290,11 +290,45 @@
       const box = document.getElementById("searchBox");
       const list = document.getElementById("searchResults");
       const BBOX = "4.5,42.0,21.5,50.0";
-      let timer = null, results = [], active = -1;
+      let timer = null, results = [], active = -1, marker = null;
+
+      // Coordinates typed in the box (decimal or degrees-minutes-seconds) are
+      // read here, without the geocoder. Latitude first, as on most maps; if the
+      // pair only makes sense swapped (13.08, 46.40), it is swapped.
+      const inArea = (lat, lon) => lat >= 42 && lat <= 50 && lon >= 4.5 && lon <= 21.5;
+      const parseCoords = (q) => {
+        let a, b;
+        const dms = [...q.matchAll(/(\d+(?:[.,]\d+)?)\s*°\s*(?:(\d+(?:[.,]\d+)?)\s*['′’]\s*)?(?:(\d+(?:[.,]\d+)?)\s*(?:["″”]|'')\s*)?([NSEWO])?/gi)];
+        if (dms.length === 2) {
+          const val = (m) => {
+            const n = (x) => x ? parseFloat(x.replace(",", ".")) : 0;
+            let v = n(m[1]) + n(m[2]) / 60 + n(m[3]) / 3600;
+            if (/[SWO]/i.test(m[4] || "")) v = -Math.abs(v);   // O = Ovest
+            return { v, h: (m[4] || "").toUpperCase() };
+          };
+          const p1 = val(dms[0]), p2 = val(dms[1]);
+          if (p1.h === "E" || p1.h === "O" || p2.h === "N" || p2.h === "S") { a = p2.v; b = p1.v; }
+          else { a = p1.v; b = p2.v; }
+        } else {
+          let parts = q.split(/\s*[;\s]\s*|,\s+/).filter(Boolean);
+          if (parts.length !== 2 && /^-?\d+\.\d+,-?\d+\.\d+$/.test(q)) parts = q.split(",");
+          if (parts.length !== 2) return null;
+          const nums = parts.map(x => x.replace(",", "."));
+          if (!nums.every(x => /^-?\d+(\.\d+)?$/.test(x))) return null;
+          [a, b] = nums.map(Number);
+        }
+        if (inArea(a, b)) return [b, a];
+        if (inArea(b, a)) return [a, b];
+        return null;
+      };
       const close = () => { list.classList.remove("open"); active = -1; };
       const go = (f) => {
         if (!f) return;
-        if (f.bbox && f.bbox[0] !== f.bbox[2]) {
+        if (marker) { marker.remove(); marker = null; }
+        if (f.coord) {
+          marker = new maplibregl.Marker({ color: "#b3121b" }).setLngLat(f.center).addTo(map);
+          map.flyTo({ center: f.center, zoom: 15 });
+        } else if (f.bbox && f.bbox[0] !== f.bbox[2]) {
           map.fitBounds([[f.bbox[0], f.bbox[1]], [f.bbox[2], f.bbox[3]]], { maxZoom: 15, padding: 40 });
         } else {
           map.flyTo({ center: f.center, zoom: 14 });
@@ -331,6 +365,13 @@
         clearTimeout(timer);
         const q = box.value.trim();
         if (q.length < 2) { results = []; render(); return; }
+        const c = parseCoords(q);
+        if (c) {
+          results = [{ coord: true, center: c,
+                       text: c[1].toFixed(5) + ", " + c[0].toFixed(5),
+                       place_name: c[1].toFixed(5) + ", " + c[0].toFixed(5) + ", Go to these coordinates" }];
+          active = -1; render(); return;
+        }
         timer = setTimeout(() => search(q), 300);
       });
       box.addEventListener("keydown", (e) => {
