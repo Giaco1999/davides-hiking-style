@@ -151,17 +151,7 @@
       "filter": [
         "all",
         ["!", ["==", ["coalesce", ["get", "glacier"], 0], 1]],
-        [
-          "step",
-          ["zoom"],
-          ["in", ["get", "nth_line"], ["literal", [10]]],
-          12,
-          ["in", ["get", "nth_line"], ["literal", [5, 10]]],
-          13,
-          ["in", ["get", "nth_line"], ["literal", [2, 5, 10]]],
-          14,
-          true
-        ]
+        ["step", ["zoom"], ["in", ["get", "nth_line"], ["literal", [10]]], 12, true]
       ],
       "layout": {"line-join": "round"},
       "paint": {
@@ -226,17 +216,7 @@
       "filter": [
         "all",
         ["==", ["coalesce", ["get", "glacier"], 0], 1],
-        [
-          "step",
-          ["zoom"],
-          ["in", ["get", "nth_line"], ["literal", [10]]],
-          12,
-          ["in", ["get", "nth_line"], ["literal", [5, 10]]],
-          13,
-          ["in", ["get", "nth_line"], ["literal", [2, 5, 10]]],
-          14,
-          true
-        ]
+        ["step", ["zoom"], ["in", ["get", "nth_line"], ["literal", [10]]], 12, true]
       ],
       "layout": {"line-join": "round"},
       "paint": {
@@ -1045,6 +1025,21 @@
       "paint": {
         "line-color": "#1f1d1b",
         "line-width": ["interpolate", ["linear"], ["zoom"], 7, 0.6, 8, 0.8, 12, 1.5, 14, 2, 17, 3]
+      }
+    },
+    {
+      "id": "aerialway-icon",
+      "type": "symbol",
+      "source": "omt",
+      "source-layer": "transportation",
+      "minzoom": 12,
+      "filter": ["==", ["get", "class"], "aerialway"],
+      "layout": {
+        "symbol-placement": "line-center",
+        "icon-image": "aerialway",
+        "icon-size": ["interpolate", ["linear"], ["zoom"], 12, 0.8, 15, 1.05],
+        "icon-rotation-alignment": "viewport",
+        "icon-padding": 2
       }
     },
     {
