@@ -79,10 +79,9 @@
   </header>
   <div class="body">
     <ul class="legend">
-      <li><svg width="34" height="6"><line x1="0" y1="3" x2="34" y2="3" stroke="#d0202a" stroke-width="2" stroke-dasharray="8 3"/></svg>Marked trail, easy</li>
-      <li><svg width="34" height="6"><line x1="0" y1="3" x2="34" y2="3" stroke="#d0202a" stroke-width="2" stroke-dasharray="4 3"/></svg>Mountain trail</li>
+      <li><svg width="34" height="6"><line x1="0" y1="3" x2="34" y2="3" stroke="#d0202a" stroke-width="2" stroke-dasharray="5 4"/></svg>Marked trail</li>
       <li><svg width="34" height="6"><line x1="0" y1="3" x2="34" y2="3" stroke="#d0202a" stroke-width="2.4" stroke-dasharray="1.3 3"/></svg>Alpine trail</li>
-      <li><svg width="34" height="16"><line x1="0" y1="8" x2="34" y2="8" stroke="#d0202a" stroke-width="2.2"/><image href="icons/carabiner.svg" x="11" y="0" width="12" height="16"/></svg>Via ferrata</li>
+      <li><svg width="34" height="16"><line x1="1" y1="8" x2="33" y2="8" stroke="#d0202a" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0.1 5"/><image href="icons/carabiner.svg" x="11" y="0" width="12" height="16"/></svg>Via ferrata</li>
       <li><svg width="34" height="8"><line x1="0" y1="4" x2="34" y2="4" stroke="#5a4632" stroke-opacity="0.85" stroke-width="4"/><line x1="0" y1="4" x2="34" y2="4" stroke="#ecdcbd" stroke-width="2"/></svg>Forest road, track</li>
       <li><svg width="34" height="6"><line x1="0" y1="3" x2="34" y2="3" stroke="#6b4a2b" stroke-width="1.2" stroke-dasharray="5 3"/></svg>Unmarked path</li>
       <li><svg width="34" height="10"><line x1="0" y1="5" x2="34" y2="5" stroke="#f4c4c6" stroke-width="7" stroke-linecap="round"/><line x1="0" y1="5" x2="34" y2="5" stroke="#d0202a" stroke-width="2" stroke-dasharray="4 3"/></svg>National long-distance trail</li>
@@ -103,47 +102,42 @@
     <h1>Design choices</h1><button class="closebtn" id="notesClose" title="Close">✕</button>
   </header>
   <div class="body notes">
-      <h2>Aim</h2>
-      <p>A hiking map for the Dolomites and north-east Italy that reads like a printed 1:25,000 sheet at z13 and stays legible from the regional overview (z7–8) to footpath detail (z16).</p>
-
-      <h2>Hierarchy</h2>
-      <ul>
-        <li>Red is reserved for marked trails, following Italian CAI maps. Roads stay pale and narrow; motorways are pink.</li>
-        <li>Protected areas are purple, a colour used for nothing else: a firm edge with a translucent inner band, and the park name, repeated along the boundary from z11. Natura 2000 sites are left out.</li>
-        <li>Forest roads are a double line with a light tan centre, between the white roads and the dashed paths. Railways are one solid black line; tunnels are pale roads with dashed black edges.</li>
-        <li>Content enters by scale: the main peaks from z8, more from z11 and all from z12; contours from index lines only below z12 to every line from z14; trail numbers, hut names and saddles from z13.</li>
-      </ul>
-
       <h2>Trails</h2>
       <ul>
-        <li>Difficulty is read from the dash, not the colour: easy (SAC T1), mountain (T2–T3) and alpine (T4–T6) share one red, so the map also works in greyscale and for colour-blind readers.</li>
-        <li>Via ferratas are a solid red line, since they are equipped, with a small carabiner icon repeated along them.</li>
-        <li>National long-distance trails are shown from z7 as a thin red line, and from z11 as a pale band under the normal trail symbol.</li>
+        <li>Red is used only for marked trails.</li>
+        <li>One red, two dash patterns: dashed for marked trails, dotted for alpine routes (OSM sac_scale T4–T6).</li>
+        <li>Via ferrata: dense red dots with a carabiner icon every few dozen pixels.</li>
+        <li>National long-distance trails: thin red line z7–10, pale band under the trail from z11.</li>
+      </ul>
+
+      <h2>Roads and lines</h2>
+      <ul>
+        <li>Roads: motorways pink, state roads orange, the rest pale and narrow.</li>
+        <li>Forest roads: double line with a tan centre from z12, drawn under the roads. Unmarked paths: brown dash.</li>
+        <li>Railways: solid black. Tunnels: pale fill with dashed black edges.</li>
       </ul>
 
       <h2>Relief</h2>
       <ul>
-        <li>Warm hillshade lit from the north-west, lighter at small scales so the Alps do not dominate the overview.</li>
-        <li>Index contours are heavier than intermediate ones, every 100 m from z14; contours on glaciers are blue.</li>
+        <li>Hillshade lit from the north-west, lighter at small scales.</li>
+        <li>Contours: index lines heavier, every 100 m from z14; blue on glaciers.</li>
       </ul>
 
-      <h2>Settlements</h2>
+      <h2>Areas</h2>
       <ul>
-        <li>Built-up areas are a solid tint from z7, darker at small scales so towns keep a footprint.</li>
-        <li>From z12 to z14 buildings are drawn with a thick outline in their own colour, so neighbouring buildings merge into a built-up mass; full footprints from z14.</li>
+        <li>Woods from z5 (Planet v4 below z8).</li>
+        <li>Built-up tint from z7; buildings merged into masses z12–14, footprints from z14.</li>
+        <li>Protected areas from z9: purple edge, translucent inner band, name along the boundary. Natura 2000 sites excluded.</li>
       </ul>
 
-      <h2>Points and labels</h2>
+      <h2>Labels</h2>
       <ul>
-        <li>Huts, bivouacs, viewpoints and caves use custom icons. Huts are the destinations on a mountain map, so their icons are always drawn, even where other labels compete for space.</li>
-        <li>Every named lake has one straight, horizontal name at its label point, sized by the lake's area and placed above every other label; lakes are drawn over rivers.</li>
-        <li>Labels avoid the red trails: a row of invisible symbols along each trail occupies collision space, and hut and bivouac names choose a free position around their point. Peak names are the exception: trails often end on a summit, so they keep their place and win over trails.</li>
-        <li>Trail numbers and river names sit beside their line, not on it.</li>
+        <li>Lakes: one horizontal name per lake, sized by area, highest priority.</li>
+        <li>Peaks: main ones from z8, all from z12; names win over trails.</li>
+        <li>Hut and bivouac names avoid trails, using invisible collision symbols along them.</li>
+        <li>Trail numbers and river names sit above their line.</li>
       </ul>
-
-      <h2>Data and limits</h2>
-      <p>MapTiler Planet v3 and v4, Outdoor, Contours and Terrain RGB tiles, © OpenStreetMap contributors. Huts and bivouacs come from the base map's POI layer, viewpoints and caves from the outdoor layer, lake label points from Planet v4, after checking in the tiles where each type is actually present. Trails with no difficulty tag are drawn as easy, and many viewpoints and shelters have no name in the source data.</p>
-      <p class="muted">The work was significantly sped up by using Claude (Anthropic) to write the style code. The cartographic choices, and the review of every result, are mine.</p>
+      <p class="muted">Style code written with Claude (Anthropic); cartographic choices and review are mine.</p>
   </div>
 </div>
 
