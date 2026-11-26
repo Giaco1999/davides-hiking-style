@@ -1102,7 +1102,7 @@
             ["!=", ["coalesce", ["get", "network"], ""], ""]
           ]
         ],
-        ["==", ["coalesce", ["get", "network"], ""], "nwn"]
+        ["in", ["coalesce", ["get", "network"], ""], ["literal", ["rwn", "nwn", "iwn"]]]
       ],
       "layout": {"line-join": "round", "line-cap": "round"},
       "paint": {"line-color": "#f4c4c6", "line-width": ["interpolate", ["linear"], ["zoom"], 11, 5, 14, 8, 17, 12]}
@@ -1115,13 +1115,17 @@
       "minzoom": 11,
       "filter": [
         "all",
-        ["in", ["get", "class"], ["literal", ["hiking", "foot"]]],
         [
-          "any",
-          ["!=", ["coalesce", ["get", "ref"], ""], ""],
-          ["!=", ["coalesce", ["get", "name"], ""], ""],
-          ["!=", ["coalesce", ["get", "network"], ""], ""]
-        ]
+          "all",
+          ["in", ["get", "class"], ["literal", ["hiking", "foot"]]],
+          [
+            "any",
+            ["!=", ["coalesce", ["get", "ref"], ""], ""],
+            ["!=", ["coalesce", ["get", "name"], ""], ""],
+            ["!=", ["coalesce", ["get", "network"], ""], ""]
+          ]
+        ],
+        ["!", ["in", ["coalesce", ["get", "network"], ""], ["literal", ["rwn", "nwn", "iwn"]]]]
       ],
       "layout": {"line-join": "round", "line-cap": "butt"},
       "paint": {
@@ -1533,14 +1537,14 @@
       "type": "symbol",
       "source": "v4",
       "source-layer": "poi_tourism",
-      "minzoom": 12,
+      "minzoom": 13,
       "filter": ["all", ["==", ["get", "class"], "alpine_hut"], ["!=", ["coalesce", ["get", "subclass"], ""], "ruins"]],
       "layout": {
         "icon-image": "hut",
         "icon-size": ["interpolate", ["linear"], ["zoom"], 12, 0.7, 15, 1.05],
         "icon-padding": 1,
         "icon-allow-overlap": true,
-        "text-field": ["step", ["zoom"], "", 13, ["coalesce", ["get", "name"], ""]],
+        "text-field": ["step", ["zoom"], "", 14, ["coalesce", ["get", "name"], ""]],
         "text-font": ["Noto Sans Bold"],
         "text-size": ["interpolate", ["linear"], ["zoom"], 13, 10.5, 16, 13.5],
         "text-max-width": 8,
@@ -1641,7 +1645,6 @@
       "source": "outdoor",
       "source-layer": "trail",
       "minzoom": 9,
-      "maxzoom": 13,
       "filter": [
         "all",
         [
@@ -1654,8 +1657,14 @@
             ["!=", ["coalesce", ["get", "network"], ""], ""]
           ]
         ],
-        ["==", ["coalesce", ["get", "network"], ""], "nwn"],
-        ["has", "name"]
+        ["has", "name"],
+        [
+          "step",
+          ["zoom"],
+          ["==", ["coalesce", ["get", "network"], ""], "nwn"],
+          11,
+          ["in", ["coalesce", ["get", "network"], ""], ["literal", ["rwn", "nwn", "iwn"]]]
+        ]
       ],
       "layout": {
         "text-offset": [0, -0.85],
