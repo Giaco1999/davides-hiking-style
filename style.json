@@ -1,27 +1,53 @@
 {
   "version": 8,
   "name": "Davide's Hiking Style",
-  "metadata": {
-    "author": "Davide Giacomini",
-    "data": "MapTiler Planet v3 and v4, Outdoor, Contours v2, Terrain RGB v2"
-  },
+  "metadata": {"author": "Davide Giacomini", "data": "MapTiler Planet v3 and v4, Outdoor, Contours v2, Terrain RGB v2"},
   "center": [13.2346, 46.0637],
   "zoom": 12.5,
   "sources": {
     "omt": {"type": "vector", "url": "https://api.maptiler.com/tiles/v3/tiles.json?key={key}"},
-    "contours": {
-      "type": "vector",
-      "url": "https://api.maptiler.com/tiles/contours-v2/tiles.json?key={key}"
-    },
-    "outdoor": {
-      "type": "vector",
-      "url": "https://api.maptiler.com/tiles/outdoor/tiles.json?key={key}"
-    },
+    "contours": {"type": "vector", "url": "https://api.maptiler.com/tiles/contours-v2/tiles.json?key={key}"},
+    "outdoor": {"type": "vector", "url": "https://api.maptiler.com/tiles/outdoor/tiles.json?key={key}"},
     "v4": {"type": "vector", "url": "https://api.maptiler.com/tiles/v4/tiles.json?key={key}"},
-    "dem": {
-      "type": "raster-dem",
-      "url": "https://api.maptiler.com/tiles/terrain-rgb-v2/tiles.json?key={key}"
-    }
+    "countries": {
+      "type": "geojson",
+      "data": {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "properties": {"name": "ITALIA"},
+            "geometry": {"type": "Point", "coordinates": [10.6, 45.05]}
+          },
+          {
+            "type": "Feature",
+            "properties": {"name": "ÖSTERREICH"},
+            "geometry": {"type": "Point", "coordinates": [13.1, 47.35]}
+          },
+          {
+            "type": "Feature",
+            "properties": {"name": "SLOVENIJA"},
+            "geometry": {"type": "Point", "coordinates": [14.9, 45.85]}
+          },
+          {
+            "type": "Feature",
+            "properties": {"name": "SCHWEIZ"},
+            "geometry": {"type": "Point", "coordinates": [8.3, 46.75]}
+          },
+          {
+            "type": "Feature",
+            "properties": {"name": "DEUTSCHLAND"},
+            "geometry": {"type": "Point", "coordinates": [10.3, 49.0]}
+          },
+          {
+            "type": "Feature",
+            "properties": {"name": "HRVATSKA"},
+            "geometry": {"type": "Point", "coordinates": [15.6, 45.2]}
+          }
+        ]
+      }
+    },
+    "dem": {"type": "raster-dem", "url": "https://api.maptiler.com/tiles/terrain-rgb-v2/tiles.json?key={key}"}
   },
   "glyphs": "https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key={key}",
   "sprite": "{sprite}",
@@ -52,10 +78,7 @@
       "source-layer": "landcover",
       "minzoom": 8,
       "filter": ["==", ["get", "class"], "wood"],
-      "paint": {
-        "fill-color": "#cfe0bf",
-        "fill-opacity": ["interpolate", ["linear"], ["zoom"], 8, 0.6, 12, 1]
-      }
+      "paint": {"fill-color": "#cfe0bf", "fill-opacity": ["interpolate", ["linear"], ["zoom"], 8, 0.6, 12, 1]}
     },
     {
       "id": "landcover-grass",
@@ -114,29 +137,14 @@
       "minzoom": 9,
       "filter": ["any", ["==", ["get", "class"], "ice"], ["==", ["get", "subclass"], "glacier"]],
       "layout": {"line-join": "round"},
-      "paint": {
-        "line-color": "#4f8fc0",
-        "line-width": ["interpolate", ["linear"], ["zoom"], 9, 0.8, 12, 1.4, 15, 2.2]
-      }
+      "paint": {"line-color": "#4f8fc0", "line-width": ["interpolate", ["linear"], ["zoom"], 9, 0.8, 12, 1.4, 15, 2.2]}
     },
     {
       "id": "hillshade",
       "type": "hillshade",
       "source": "dem",
       "paint": {
-        "hillshade-exaggeration": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          7,
-          0.3,
-          10,
-          0.38,
-          13,
-          0.42,
-          15,
-          0.3
-        ],
+        "hillshade-exaggeration": ["interpolate", ["linear"], ["zoom"], 7, 0.3, 10, 0.38, 13, 0.42, 15, 0.3],
         "hillshade-shadow-color": "#5b4a3a",
         "hillshade-highlight-color": "#fffdf6",
         "hillshade-accent-color": "#5b4a3a",
@@ -298,11 +306,7 @@
       "type": "line",
       "source": "omt",
       "source-layer": "waterway",
-      "filter": [
-        "all",
-        ["!=", ["get", "brunnel"], "tunnel"],
-        ["!=", ["coalesce", ["get", "intermittent"], 0], 1]
-      ],
+      "filter": ["all", ["!=", ["get", "brunnel"], "tunnel"], ["!=", ["coalesce", ["get", "intermittent"], 0], 1]],
       "layout": {"line-cap": "round", "line-join": "round"},
       "paint": {
         "line-color": "#5f9cc8",
@@ -384,10 +388,7 @@
         ]
       ],
       "layout": {"line-join": "round"},
-      "paint": {
-        "line-color": "#7b3f98",
-        "line-width": ["interpolate", ["linear"], ["zoom"], 10, 0.8, 14, 1.3, 17, 1.8]
-      }
+      "paint": {"line-color": "#7b3f98", "line-width": ["interpolate", ["linear"], ["zoom"], 10, 0.8, 14, 1.3, 17, 1.8]}
     },
     {
       "id": "building-mass",
@@ -436,15 +437,7 @@
         "line-color": "#2b2a28",
         "line-opacity": 0.85,
         "line-dasharray": [1.6, 1],
-        "line-width": [
-          "interpolate",
-          ["exponential", 1.4],
-          ["zoom"],
-          14,
-          1.7999999999999998,
-          17,
-          4.4
-        ]
+        "line-width": ["interpolate", ["exponential", 1.4], ["zoom"], 14, 1.7999999999999998, 17, 4.4]
       }
     },
     {
@@ -504,17 +497,7 @@
         "line-color": "#2b2a28",
         "line-opacity": 0.85,
         "line-dasharray": [1.6, 1],
-        "line-width": [
-          "interpolate",
-          ["exponential", 1.4],
-          ["zoom"],
-          9,
-          1.7999999999999998,
-          12,
-          3.2,
-          16,
-          8.4
-        ]
+        "line-width": ["interpolate", ["exponential", 1.4], ["zoom"], 9, 1.7999999999999998, 12, 3.2, 16, 8.4]
       }
     },
     {
@@ -590,10 +573,7 @@
         ["==", ["geometry-type"], "LineString"]
       ],
       "layout": {"line-join": "round", "line-cap": "butt"},
-      "paint": {
-        "line-color": "#ffffff",
-        "line-width": ["interpolate", ["exponential", 1.4], ["zoom"], 14, 0.4, 17, 3]
-      }
+      "paint": {"line-color": "#ffffff", "line-width": ["interpolate", ["exponential", 1.4], ["zoom"], 14, 0.4, 17, 3]}
     },
     {
       "id": "tunnel-minor",
@@ -784,17 +764,7 @@
       "paint": {
         "line-color": "#3a3430",
         "line-opacity": ["interpolate", ["linear"], ["zoom"], 6, 0.45, 10, 0.7, 13, 0.9],
-        "line-width": [
-          "interpolate",
-          ["exponential", 1.4],
-          ["zoom"],
-          12,
-          1.5,
-          14,
-          2.5999999999999996,
-          17,
-          6.2
-        ]
+        "line-width": ["interpolate", ["exponential", 1.4], ["zoom"], 12, 1.5, 14, 2.5999999999999996, 17, 6.2]
       }
     },
     {
@@ -813,17 +783,7 @@
       "paint": {
         "line-color": "#3a3430",
         "line-opacity": ["interpolate", ["linear"], ["zoom"], 6, 0.45, 10, 0.7, 13, 0.9],
-        "line-width": [
-          "interpolate",
-          ["exponential", 1.4],
-          ["zoom"],
-          10,
-          1.5,
-          12,
-          2.5999999999999996,
-          16,
-          7.2
-        ]
+        "line-width": ["interpolate", ["exponential", 1.4], ["zoom"], 10, 1.5, 12, 2.5999999999999996, 16, 7.2]
       }
     },
     {
@@ -861,17 +821,7 @@
       "paint": {
         "line-color": "#3a3430",
         "line-opacity": ["interpolate", ["linear"], ["zoom"], 6, 0.45, 10, 0.7, 13, 0.9],
-        "line-width": [
-          "interpolate",
-          ["exponential", 1.4],
-          ["zoom"],
-          8,
-          1.7,
-          12,
-          3.4000000000000004,
-          16,
-          9.2
-        ]
+        "line-width": ["interpolate", ["exponential", 1.4], ["zoom"], 8, 1.7, 12, 3.4000000000000004, 16, 9.2]
       }
     },
     {
@@ -890,17 +840,7 @@
       "paint": {
         "line-color": "#3a3430",
         "line-opacity": ["interpolate", ["linear"], ["zoom"], 6, 0.45, 10, 0.7, 13, 0.9],
-        "line-width": [
-          "interpolate",
-          ["exponential", 1.4],
-          ["zoom"],
-          7,
-          1.7999999999999998,
-          12,
-          3.8,
-          16,
-          10.2
-        ]
+        "line-width": ["interpolate", ["exponential", 1.4], ["zoom"], 7, 1.7999999999999998, 12, 3.8, 16, 10.2]
       }
     },
     {
@@ -935,10 +875,7 @@
         ["==", ["geometry-type"], "LineString"]
       ],
       "layout": {"line-cap": "round", "line-join": "round"},
-      "paint": {
-        "line-color": "#ffffff",
-        "line-width": ["interpolate", ["exponential", 1.4], ["zoom"], 14, 0.4, 17, 3]
-      }
+      "paint": {"line-color": "#ffffff", "line-width": ["interpolate", ["exponential", 1.4], ["zoom"], 14, 0.4, 17, 3]}
     },
     {
       "id": "road-minor",
@@ -1074,10 +1011,7 @@
       "source-layer": "transportation",
       "minzoom": 12,
       "filter": ["==", ["get", "class"], "aerialway"],
-      "paint": {
-        "line-color": "#3d3a36",
-        "line-width": ["interpolate", ["linear"], ["zoom"], 12, 0.6, 16, 1.2]
-      }
+      "paint": {"line-color": "#3d3a36", "line-width": ["interpolate", ["linear"], ["zoom"], 12, 0.6, 16, 1.2]}
     },
     {
       "id": "aerialway-ticks",
@@ -1103,10 +1037,7 @@
         ["all", ["==", ["get", "class"], "rail"], ["!=", ["get", "brunnel"], "tunnel"]],
         ["has", "service"]
       ],
-      "paint": {
-        "line-color": "#6e6a64",
-        "line-width": ["interpolate", ["linear"], ["zoom"], 13, 0.5, 16, 1]
-      }
+      "paint": {"line-color": "#6e6a64", "line-width": ["interpolate", ["linear"], ["zoom"], 13, 0.5, 16, 1]}
     },
     {
       "id": "railway",
@@ -1132,29 +1063,22 @@
       "minzoom": 7,
       "filter": [
         "all",
-        ["in", ["get", "class"], ["literal", ["hiking", "foot"]]],
+        [
+          "all",
+          ["in", ["get", "class"], ["literal", ["hiking", "foot"]]],
+          [
+            "any",
+            ["!=", ["coalesce", ["get", "ref"], ""], ""],
+            ["!=", ["coalesce", ["get", "name"], ""], ""],
+            ["!=", ["coalesce", ["get", "network"], ""], ""]
+          ]
+        ],
         ["==", ["coalesce", ["get", "network"], ""], "nwn"]
       ],
       "layout": {"line-join": "round", "line-cap": "round"},
       "paint": {
         "line-color": ["step", ["zoom"], "#d0202a", 11, "#f4c4c6"],
-        "line-width": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          7,
-          0.6,
-          9,
-          1.1,
-          10.9,
-          1.8,
-          11,
-          5,
-          14,
-          8,
-          17,
-          12
-        ]
+        "line-width": ["interpolate", ["linear"], ["zoom"], 7, 0.6, 9, 1.1, 10.9, 1.8, 11, 5, 14, 8, 17, 12]
       }
     },
     {
@@ -1163,7 +1087,20 @@
       "source": "outdoor",
       "source-layer": "trail",
       "minzoom": 11,
-      "filter": ["in", ["get", "class"], ["literal", ["hiking", "foot", "via_ferrata"]]],
+      "filter": [
+        "all",
+        ["in", ["get", "class"], ["literal", ["hiking", "foot", "via_ferrata"]]],
+        [
+          "any",
+          ["==", ["get", "class"], "via_ferrata"],
+          [
+            "any",
+            ["!=", ["coalesce", ["get", "ref"], ""], ""],
+            ["!=", ["coalesce", ["get", "name"], ""], ""],
+            ["!=", ["coalesce", ["get", "network"], ""], ""]
+          ]
+        ]
+      ],
       "layout": {"line-join": "round", "line-cap": "round"},
       "paint": {
         "line-color": "#ffffff",
@@ -1179,7 +1116,16 @@
       "minzoom": 11,
       "filter": [
         "all",
-        ["in", ["get", "class"], ["literal", ["hiking", "foot"]]],
+        [
+          "all",
+          ["in", ["get", "class"], ["literal", ["hiking", "foot"]]],
+          [
+            "any",
+            ["!=", ["coalesce", ["get", "ref"], ""], ""],
+            ["!=", ["coalesce", ["get", "name"], ""], ""],
+            ["!=", ["coalesce", ["get", "network"], ""], ""]
+          ]
+        ],
         [
           "!",
           [
@@ -1204,7 +1150,16 @@
       "minzoom": 11,
       "filter": [
         "all",
-        ["in", ["get", "class"], ["literal", ["hiking", "foot"]]],
+        [
+          "all",
+          ["in", ["get", "class"], ["literal", ["hiking", "foot"]]],
+          [
+            "any",
+            ["!=", ["coalesce", ["get", "ref"], ""], ""],
+            ["!=", ["coalesce", ["get", "name"], ""], ""],
+            ["!=", ["coalesce", ["get", "network"], ""], ""]
+          ]
+        ],
         [
           "in",
           ["coalesce", ["get", "scale"], ""],
@@ -1226,10 +1181,7 @@
       "minzoom": 12,
       "filter": ["==", ["get", "class"], "via_ferrata"],
       "layout": {"line-join": "round", "line-cap": "round"},
-      "paint": {
-        "line-color": "#d0202a",
-        "line-width": ["interpolate", ["linear"], ["zoom"], 12, 1.3, 14, 1.8, 17, 2.6]
-      }
+      "paint": {"line-color": "#d0202a", "line-width": ["interpolate", ["linear"], ["zoom"], 12, 1.3, 14, 1.8, 17, 2.6]}
     },
     {
       "id": "via-ferrata-ticks",
@@ -1264,11 +1216,7 @@
       "source-layer": "contour",
       "minzoom": 13,
       "maxzoom": 14,
-      "filter": [
-        "all",
-        ["==", ["get", "nth_line"], 10],
-        ["!=", ["coalesce", ["get", "glacier"], 0], 1]
-      ],
+      "filter": ["all", ["==", ["get", "nth_line"], 10], ["!=", ["coalesce", ["get", "glacier"], 0], 1]],
       "layout": {
         "symbol-placement": "line",
         "symbol-spacing": 400,
@@ -1278,12 +1226,7 @@
         "text-rotation-alignment": "map",
         "text-pitch-alignment": "viewport"
       },
-      "paint": {
-        "text-color": "#8a6640",
-        "text-halo-color": "#f6f2e9",
-        "text-halo-width": 1.4,
-        "text-halo-blur": 0.3
-      }
+      "paint": {"text-color": "#8a6640", "text-halo-color": "#f6f2e9", "text-halo-width": 1.4, "text-halo-blur": 0.3}
     },
     {
       "id": "contour-label-z14",
@@ -1292,11 +1235,7 @@
       "source-layer": "contour",
       "minzoom": 14,
       "maxzoom": 24,
-      "filter": [
-        "all",
-        ["==", ["%", ["get", "height"], 100], 0],
-        ["!=", ["coalesce", ["get", "glacier"], 0], 1]
-      ],
+      "filter": ["all", ["==", ["%", ["get", "height"], 100], 0], ["!=", ["coalesce", ["get", "glacier"], 0], 1]],
       "layout": {
         "symbol-placement": "line",
         "symbol-spacing": 400,
@@ -1306,12 +1245,7 @@
         "text-rotation-alignment": "map",
         "text-pitch-alignment": "viewport"
       },
-      "paint": {
-        "text-color": "#8a6640",
-        "text-halo-color": "#f6f2e9",
-        "text-halo-width": 1.4,
-        "text-halo-blur": 0.3
-      }
+      "paint": {"text-color": "#8a6640", "text-halo-color": "#f6f2e9", "text-halo-width": 1.4, "text-halo-blur": 0.3}
     },
     {
       "id": "waterway-name",
@@ -1331,12 +1265,7 @@
         "text-rotation-alignment": "map",
         "text-pitch-alignment": "viewport"
       },
-      "paint": {
-        "text-color": "#2f6e9e",
-        "text-halo-color": "#f6f2e9",
-        "text-halo-width": 1.4,
-        "text-halo-blur": 0.3
-      }
+      "paint": {"text-color": "#2f6e9e", "text-halo-color": "#f6f2e9", "text-halo-width": 1.4, "text-halo-blur": 0.3}
     },
     {
       "id": "park-name",
@@ -1387,12 +1316,7 @@
         "text-max-width": 8,
         "text-letter-spacing": 0.05
       },
-      "paint": {
-        "text-color": "#7b3f98",
-        "text-halo-color": "#f6f2e9",
-        "text-halo-width": 1.4,
-        "text-halo-blur": 0.3
-      }
+      "paint": {"text-color": "#7b3f98", "text-halo-color": "#f6f2e9", "text-halo-width": 1.4, "text-halo-blur": 0.3}
     },
     {
       "id": "park-boundary-name",
@@ -1448,12 +1372,7 @@
         "text-rotation-alignment": "map",
         "text-pitch-alignment": "viewport"
       },
-      "paint": {
-        "text-color": "#7b3f98",
-        "text-halo-color": "#f6f2e9",
-        "text-halo-width": 1.4,
-        "text-halo-blur": 0.3
-      }
+      "paint": {"text-color": "#7b3f98", "text-halo-color": "#f6f2e9", "text-halo-width": 1.4, "text-halo-blur": 0.3}
     },
     {
       "id": "peak-marker",
@@ -1476,10 +1395,7 @@
           true
         ]
       ],
-      "paint": {
-        "circle-color": "#2b2a28",
-        "circle-radius": ["interpolate", ["linear"], ["zoom"], 8, 1.4, 15, 2.6]
-      }
+      "paint": {"circle-color": "#2b2a28", "circle-radius": ["interpolate", ["linear"], ["zoom"], 8, 1.4, 15, 2.6]}
     },
     {
       "id": "poi-cave",
@@ -1512,12 +1428,7 @@
         "text-optional": true,
         "symbol-sort-key": 3
       },
-      "paint": {
-        "text-color": "#2b2a28",
-        "text-halo-color": "#f6f2e9",
-        "text-halo-width": 1.4,
-        "text-halo-blur": 0.3
-      }
+      "paint": {"text-color": "#2b2a28", "text-halo-color": "#f6f2e9", "text-halo-width": 1.4, "text-halo-blur": 0.3}
     },
     {
       "id": "poi-viewpoint",
@@ -1550,12 +1461,7 @@
         "text-optional": true,
         "symbol-sort-key": 2
       },
-      "paint": {
-        "text-color": "#2b2a28",
-        "text-halo-color": "#f6f2e9",
-        "text-halo-width": 1.4,
-        "text-halo-blur": 0.3
-      }
+      "paint": {"text-color": "#2b2a28", "text-halo-color": "#f6f2e9", "text-halo-width": 1.4, "text-halo-blur": 0.3}
     },
     {
       "id": "poi-bivouac",
@@ -1610,12 +1516,7 @@
         "text-optional": true,
         "symbol-sort-key": 1
       },
-      "paint": {
-        "text-color": "#b3121b",
-        "text-halo-color": "#f6f2e9",
-        "text-halo-width": 1.4,
-        "text-halo-blur": 0.3
-      }
+      "paint": {"text-color": "#b3121b", "text-halo-color": "#f6f2e9", "text-halo-width": 1.4, "text-halo-blur": 0.3}
     },
     {
       "id": "poi-hut",
@@ -1648,12 +1549,7 @@
         "text-optional": true,
         "symbol-sort-key": 0
       },
-      "paint": {
-        "text-color": "#b3121b",
-        "text-halo-color": "#f6f2e9",
-        "text-halo-width": 1.4,
-        "text-halo-blur": 0.3
-      }
+      "paint": {"text-color": "#b3121b", "text-halo-color": "#f6f2e9", "text-halo-width": 1.4, "text-halo-blur": 0.3}
     },
     {
       "id": "trail-label-guard",
@@ -1661,7 +1557,20 @@
       "source": "outdoor",
       "source-layer": "trail",
       "minzoom": 13,
-      "filter": ["in", ["get", "class"], ["literal", ["hiking", "foot", "via_ferrata"]]],
+      "filter": [
+        "all",
+        ["in", ["get", "class"], ["literal", ["hiking", "foot", "via_ferrata"]]],
+        [
+          "any",
+          ["==", ["get", "class"], "via_ferrata"],
+          [
+            "any",
+            ["!=", ["coalesce", ["get", "ref"], ""], ""],
+            ["!=", ["coalesce", ["get", "name"], ""], ""],
+            ["!=", ["coalesce", ["get", "network"], ""], ""]
+          ]
+        ]
+      ],
       "layout": {
         "symbol-placement": "line",
         "symbol-spacing": 12,
@@ -1701,11 +1610,7 @@
       "source": "outdoor",
       "source-layer": "trail",
       "minzoom": 13,
-      "filter": [
-        "all",
-        ["in", ["get", "class"], ["literal", ["hiking", "foot", "via_ferrata"]]],
-        ["has", "ref"]
-      ],
+      "filter": ["all", ["in", ["get", "class"], ["literal", ["hiking", "foot", "via_ferrata"]]], ["has", "ref"]],
       "layout": {
         "text-offset": [0, -0.85],
         "symbol-placement": "line",
@@ -1728,7 +1633,16 @@
       "maxzoom": 13,
       "filter": [
         "all",
-        ["in", ["get", "class"], ["literal", ["hiking", "foot"]]],
+        [
+          "all",
+          ["in", ["get", "class"], ["literal", ["hiking", "foot"]]],
+          [
+            "any",
+            ["!=", ["coalesce", ["get", "ref"], ""], ""],
+            ["!=", ["coalesce", ["get", "name"], ""], ""],
+            ["!=", ["coalesce", ["get", "network"], ""], ""]
+          ]
+        ],
         ["==", ["coalesce", ["get", "network"], ""], "nwn"],
         ["has", "name"]
       ],
@@ -1794,12 +1708,7 @@
         "text-max-width": 8,
         "symbol-sort-key": ["-", 0, ["coalesce", ["get", "ele"], 0]]
       },
-      "paint": {
-        "text-color": "#2b2a28",
-        "text-halo-color": "#f6f2e9",
-        "text-halo-width": 1.4,
-        "text-halo-blur": 0.3
-      }
+      "paint": {"text-color": "#2b2a28", "text-halo-color": "#f6f2e9", "text-halo-width": 1.4, "text-halo-blur": 0.3}
     },
     {
       "id": "saddle-name",
@@ -1822,12 +1731,21 @@
         "text-size": ["interpolate", ["linear"], ["zoom"], 13, 10, 16, 12],
         "text-max-width": 8
       },
-      "paint": {
-        "text-color": "#4a4540",
-        "text-halo-color": "#f6f2e9",
-        "text-halo-width": 1.4,
-        "text-halo-blur": 0.3
-      }
+      "paint": {"text-color": "#4a4540", "text-halo-color": "#f6f2e9", "text-halo-width": 1.4, "text-halo-blur": 0.3}
+    },
+    {
+      "id": "place-country",
+      "type": "symbol",
+      "source": "countries",
+      "minzoom": 5.5,
+      "maxzoom": 8,
+      "layout": {
+        "text-field": ["get", "name"],
+        "text-font": ["Noto Sans Bold"],
+        "text-size": ["interpolate", ["linear"], ["zoom"], 6, 13, 8, 16],
+        "text-letter-spacing": 0.25
+      },
+      "paint": {"text-color": "#8a837a", "text-halo-color": "#f6f2e9", "text-halo-width": 1.5}
     },
     {
       "id": "place-isolated_dwelling",
@@ -1956,12 +1874,7 @@
         "text-rotation-alignment": "viewport",
         "text-pitch-alignment": "viewport"
       },
-      "paint": {
-        "text-color": "#2f6e9e",
-        "text-halo-color": "#f6f2e9",
-        "text-halo-width": 1.4,
-        "text-halo-blur": 0.3
-      }
+      "paint": {"text-color": "#2f6e9e", "text-halo-color": "#f6f2e9", "text-halo-width": 1.4, "text-halo-blur": 0.3}
     }
   ]
 }
