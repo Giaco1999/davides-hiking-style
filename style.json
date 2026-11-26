@@ -682,7 +682,7 @@
       ],
       "layout": {"line-join": "round", "line-cap": "butt"},
       "paint": {
-        "line-color": "#fdf5e3",
+        "line-color": "#fbe8a0",
         "line-width": ["interpolate", ["exponential", 1.4], ["zoom"], 9, 0.4, 12, 1.8, 16, 7]
       }
     },
@@ -1015,7 +1015,7 @@
       ],
       "layout": {"line-cap": "round", "line-join": "round"},
       "paint": {
-        "line-color": "#fbebc4",
+        "line-color": "#f5cf3d",
         "line-width": ["interpolate", ["exponential", 1.4], ["zoom"], 9, 0.4, 12, 1.8, 16, 7]
       }
     },
@@ -1251,23 +1251,6 @@
       }
     },
     {
-      "id": "via-ferrata-icons",
-      "type": "symbol",
-      "source": "outdoor",
-      "source-layer": "trail",
-      "minzoom": 12,
-      "filter": ["==", ["get", "class"], "via_ferrata"],
-      "layout": {
-        "symbol-placement": "line",
-        "symbol-spacing": ["interpolate", ["linear"], ["zoom"], 12, 60, 15, 80, 17, 100],
-        "icon-image": "carabiner",
-        "icon-size": ["interpolate", ["linear"], ["zoom"], 12, 0.75, 15, 0.95, 17, 1.1],
-        "icon-rotation-alignment": "viewport",
-        "icon-allow-overlap": true,
-        "icon-ignore-placement": true
-      }
-    },
-    {
       "id": "boundary-country",
       "type": "line",
       "source": "omt",
@@ -1487,7 +1470,17 @@
       "filter": [
         "all",
         ["in", ["get", "class"], ["literal", ["peak", "volcano"]]],
-        ["step", ["zoom"], ["<=", ["get", "rank"], 1], 11, ["<=", ["get", "rank"], 3], 12, true]
+        [
+          "step",
+          ["zoom"],
+          ["any", ["<=", ["get", "rank"], 1], [">=", ["coalesce", ["get", "ele"], 0], 2700]],
+          10,
+          ["any", ["<=", ["get", "rank"], 2], [">=", ["coalesce", ["get", "ele"], 0], 2400]],
+          11,
+          ["any", ["<=", ["get", "rank"], 3], [">=", ["coalesce", ["get", "ele"], 0], 2000]],
+          12,
+          true
+        ]
       ],
       "paint": {
         "circle-color": "#2b2a28",
@@ -1668,21 +1661,37 @@
       "paint": {"icon-opacity": 0}
     },
     {
+      "id": "via-ferrata-icons",
+      "type": "symbol",
+      "source": "outdoor",
+      "source-layer": "trail",
+      "minzoom": 12,
+      "filter": ["==", ["get", "class"], "via_ferrata"],
+      "layout": {
+        "symbol-placement": "line",
+        "symbol-spacing": ["interpolate", ["linear"], ["zoom"], 12, 60, 15, 80, 17, 100],
+        "icon-image": "carabiner",
+        "icon-size": ["interpolate", ["linear"], ["zoom"], 12, 0.75, 15, 0.95, 17, 1.1],
+        "icon-rotation-alignment": "viewport",
+        "icon-padding": 1
+      }
+    },
+    {
       "id": "via-ferrata-label",
       "type": "symbol",
       "source": "outdoor",
       "source-layer": "trail",
-      "minzoom": 13,
+      "minzoom": 12,
       "filter": ["==", ["get", "class"], "via_ferrata"],
       "layout": {
         "symbol-placement": "line",
-        "symbol-spacing": ["interpolate", ["linear"], ["zoom"], 13, 260, 17, 420],
+        "symbol-spacing": ["interpolate", ["linear"], ["zoom"], 12, 160, 17, 380],
         "text-field": "Via ferrata",
         "text-font": ["Noto Sans Italic"],
-        "text-size": ["interpolate", ["linear"], ["zoom"], 13, 10, 16, 12.5],
+        "text-size": ["interpolate", ["linear"], ["zoom"], 12, 9.5, 16, 12.5],
         "text-offset": [0, -1.1],
-        "text-letter-spacing": 0.04,
-        "text-max-angle": 35,
+        "text-letter-spacing": 0.02,
+        "text-max-angle": 70,
         "text-rotation-alignment": "map",
         "text-pitch-alignment": "viewport"
       },
@@ -1746,7 +1755,17 @@
       "filter": [
         "all",
         ["in", ["get", "class"], ["literal", ["peak", "volcano"]]],
-        ["step", ["zoom"], ["<=", ["get", "rank"], 1], 11, ["<=", ["get", "rank"], 3], 12, true],
+        [
+          "step",
+          ["zoom"],
+          ["any", ["<=", ["get", "rank"], 1], [">=", ["coalesce", ["get", "ele"], 0], 2700]],
+          10,
+          ["any", ["<=", ["get", "rank"], 2], [">=", ["coalesce", ["get", "ele"], 0], 2400]],
+          11,
+          ["any", ["<=", ["get", "rank"], 3], [">=", ["coalesce", ["get", "ele"], 0], 2000]],
+          12,
+          true
+        ],
         ["has", "name"]
       ],
       "layout": {
@@ -1765,7 +1784,7 @@
         "text-radial-offset": 0.5,
         "text-justify": "auto",
         "text-max-width": 8,
-        "symbol-sort-key": ["get", "rank"]
+        "symbol-sort-key": ["-", 0, ["coalesce", ["get", "ele"], 0]]
       },
       "paint": {
         "text-color": "#2b2a28",

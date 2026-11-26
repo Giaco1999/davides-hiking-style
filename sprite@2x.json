@@ -16,26 +16,26 @@
  "viewpoint": {
   "x": 76,
   "y": 0,
-  "width": 32,
-  "height": 32,
+  "width": 36,
+  "height": 36,
   "pixelRatio": 2
  },
  "cave": {
-  "x": 110,
+  "x": 114,
   "y": 0,
   "width": 40,
   "height": 30,
   "pixelRatio": 2
  },
  "blank": {
-  "x": 152,
+  "x": 156,
   "y": 0,
   "width": 16,
   "height": 16,
   "pixelRatio": 2
  },
  "carabiner": {
-  "x": 170,
+  "x": 174,
   "y": 0,
   "width": 52,
   "height": 52,

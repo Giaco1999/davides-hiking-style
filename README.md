@@ -23,7 +23,8 @@ Live map: https://giaco1999.github.io/davides-hiking-style/
 - `sprite.*`, `sprite@2x.*`, `icons/`: custom icons
 - `index.html`, `config.js`: the demo page
 
-The work was significantly sped up by using Claude (Anthropic) to write the style
-code. The cartographic choices, and the review of every result, are mine.
+The work was greatly sped up by using Claude (Anthropic) to write both the style
+code and the HTML page. The cartographic choices, and the review of every result,
+are mine.
 
 Data © MapTiler © OpenStreetMap contributors.
