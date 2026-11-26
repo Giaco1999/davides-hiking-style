@@ -47,6 +47,24 @@
         ]
       }
     },
+    "key-towns": {
+      "type": "geojson",
+      "data": {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "properties": {"name": "Udine"},
+            "geometry": {"type": "Point", "coordinates": [13.2346, 46.0637]}
+          },
+          {
+            "type": "Feature",
+            "properties": {"name": "Pordenone"},
+            "geometry": {"type": "Point", "coordinates": [12.66, 45.9564]}
+          }
+        ]
+      }
+    },
     "dem": {"type": "raster-dem", "url": "https://api.maptiler.com/tiles/terrain-rgb-v2/tiles.json?key={key}"}
   },
   "glyphs": "https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key={key}",
@@ -1722,6 +1740,21 @@
         "text-letter-spacing": 0.25
       },
       "paint": {"text-color": "#8a837a", "text-halo-color": "#f6f2e9", "text-halo-width": 1.5}
+    },
+    {
+      "id": "place-key-towns",
+      "type": "symbol",
+      "source": "key-towns",
+      "minzoom": 5.5,
+      "maxzoom": 7,
+      "layout": {
+        "text-field": ["get", "name"],
+        "text-font": ["Noto Sans Bold"],
+        "text-size": 12,
+        "text-transform": "uppercase",
+        "text-letter-spacing": 0.06
+      },
+      "paint": {"text-color": "#2b2a28", "text-halo-color": "#f6f2e9", "text-halo-width": 1.8}
     },
     {
       "id": "place-isolated_dwelling",
