@@ -194,7 +194,11 @@
         container: "map",
         style,
         hash: true,
-        maxPitch: 80
+        maxPitch: 80,
+        // The style is designed and checked for north-east Italy: the view stays
+        // between Lake Garda, the Alpine divide and Trieste.
+        maxBounds: [[10.2, 45.3], [14.1, 47.2]],
+        minZoom: 7
       });
       window.map = map;  // handy for inspecting the map from the browser console
 

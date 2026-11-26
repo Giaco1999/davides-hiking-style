@@ -40,6 +40,11 @@ MapTiler data. Live demo: `https://giaco1999.github.io/davides-hiking-style/`
 - **Relief.** A warm, north-west-lit hillshade blends with the paper colour;
   glacier contours are blue, following printed alpine maps.
 
+## Area
+
+The map is limited to north-east Italy (Lake Garda to Trieste, up to the
+Alpine divide, from z7), the area the style was designed and checked for.
+
 ## Run it
 
 1. Get a MapTiler API key and restrict it to your domain.
