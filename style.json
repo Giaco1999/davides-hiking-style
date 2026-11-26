@@ -137,7 +137,7 @@
       "source-layer": "landuse",
       "minzoom": 7,
       "filter": ["in", ["get", "class"], ["literal", ["residential", "suburb", "neighbourhood"]]],
-      "paint": {"fill-color": ["interpolate", ["linear"], ["zoom"], 8, "#d9c9b5", 12, "#e4dacd"]}
+      "paint": {"fill-color": ["step", ["zoom"], "#a3968a", 12, "#e4dacd"]}
     },
     {
       "id": "landcover-glacier",
@@ -1102,7 +1102,7 @@
             ["!=", ["coalesce", ["get", "network"], ""], ""]
           ]
         ],
-        ["in", ["coalesce", ["get", "network"], ""], ["literal", ["rwn", "nwn", "iwn"]]]
+        ["==", ["coalesce", ["get", "network"], ""], "nwn"]
       ],
       "layout": {"line-join": "round", "line-cap": "round"},
       "paint": {"line-color": "#f4c4c6", "line-width": ["interpolate", ["linear"], ["zoom"], 11, 5, 14, 8, 17, 12]}
@@ -1115,39 +1115,19 @@
       "minzoom": 11,
       "filter": [
         "all",
+        ["in", ["get", "class"], ["literal", ["hiking", "foot"]]],
         [
-          "all",
-          ["in", ["get", "class"], ["literal", ["hiking", "foot"]]],
-          [
-            "any",
-            ["!=", ["coalesce", ["get", "ref"], ""], ""],
-            ["!=", ["coalesce", ["get", "name"], ""], ""],
-            ["!=", ["coalesce", ["get", "network"], ""], ""]
-          ]
-        ],
-        ["!", ["in", ["coalesce", ["get", "network"], ""], ["literal", ["rwn", "nwn", "iwn"]]]]
+          "any",
+          ["!=", ["coalesce", ["get", "ref"], ""], ""],
+          ["!=", ["coalesce", ["get", "name"], ""], ""],
+          ["!=", ["coalesce", ["get", "network"], ""], ""]
+        ]
       ],
       "layout": {"line-join": "round", "line-cap": "butt"},
       "paint": {
         "line-color": "#d1234a",
         "line-width": ["interpolate", ["linear"], ["zoom"], 11, 1.2, 13, 2, 15, 3, 17, 4],
-        "line-dasharray": [
-          "step",
-          ["zoom"],
-          ["literal", [5.0, 2.5]],
-          12,
-          ["literal", [3.75, 1.88]],
-          13,
-          ["literal", [3.0, 1.5]],
-          14,
-          ["literal", [2.4, 1.2]],
-          15,
-          ["literal", [2.0, 1.0]],
-          16,
-          ["literal", [1.71, 0.86]],
-          17,
-          ["literal", [1.5, 0.75]]
-        ]
+        "line-dasharray": [3, 1]
       }
     },
     {
@@ -1645,6 +1625,7 @@
       "source": "outdoor",
       "source-layer": "trail",
       "minzoom": 9,
+      "maxzoom": 13,
       "filter": [
         "all",
         [
@@ -1657,14 +1638,8 @@
             ["!=", ["coalesce", ["get", "network"], ""], ""]
           ]
         ],
-        ["has", "name"],
-        [
-          "step",
-          ["zoom"],
-          ["==", ["coalesce", ["get", "network"], ""], "nwn"],
-          11,
-          ["in", ["coalesce", ["get", "network"], ""], ["literal", ["rwn", "nwn", "iwn"]]]
-        ]
+        ["==", ["coalesce", ["get", "network"], ""], "nwn"],
+        ["has", "name"]
       ],
       "layout": {
         "text-offset": [0, -0.85],
