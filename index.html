@@ -133,7 +133,7 @@
       <li><svg width="34" height="6"><line x1="0" y1="3" x2="34" y2="3" stroke="#6b4a2b" stroke-width="1.2" stroke-dasharray="5 3"/></svg>Unmarked path</li>
       <li><svg width="34" height="10"><line x1="0" y1="5" x2="34" y2="5" stroke="#f4c4c6" stroke-width="7" stroke-linecap="round"/><line x1="0" y1="5" x2="34" y2="5" stroke="#d0202a" stroke-width="2" stroke-dasharray="4 3"/></svg>National long-distance trail</li>
       <li><svg width="34" height="8"><line x1="0" y1="4" x2="34" y2="4" stroke="#1f1d1b" stroke-width="3"/></svg>Railway</li>
-      <li><svg width="34" height="12"><line x1="0" y1="7" x2="34" y2="7" stroke="#7b3f98" stroke-opacity="0.2" stroke-width="7"/><line x1="0" y1="3" x2="34" y2="3" stroke="#7b3f98" stroke-opacity="0.8" stroke-width="1.3"/></svg>Protected area</li>
+      <li><svg width="34" height="6"><line x1="0" y1="3" x2="34" y2="3" stroke="#7b3f98" stroke-width="1.4"/></svg>Protected area</li>
       <li><span class="ico"><img src="icons/hut.svg" alt=""></span>Mountain hut (rifugio)</li>
       <li><span class="ico"><img src="icons/bivouac.svg" alt=""></span>Bivouac, shelter</li>
       <li><span class="ico"><img src="icons/viewpoint.svg" alt=""></span>Viewpoint</li>
@@ -174,7 +174,7 @@
       <ul>
         <li>Woods from z5 (Planet v4 below z8).</li>
         <li>Built-up tint from z7; buildings merged into masses z12–14, footprints from z14.</li>
-        <li>Protected areas from z10: purple edge, translucent inner band, name along the boundary. Natura 2000 sites excluded.</li>
+        <li>Protected areas from z10: thin purple edge and name along the boundary. Natura 2000 sites excluded.</li>
       </ul>
 
       <h2>Labels</h2>
@@ -289,7 +289,7 @@
       const box = document.getElementById("searchBox");
       const list = document.getElementById("searchResults");
       const BBOX = "4.5,42.0,21.5,50.0";
-      let timer = null, results = [], active = -1, marker = null;
+      let timer = null, results = [], active = -1, marker = null, markerTimer = null;
 
       // Coordinates typed in the box (decimal or degrees-minutes-seconds) are
       // read here, without the geocoder. Latitude first, as on most maps; if the
@@ -323,9 +323,12 @@
       const close = () => { list.classList.remove("open"); active = -1; };
       const go = (f) => {
         if (!f) return;
+        // a red pin on the place found, removed after 4 seconds
         if (marker) { marker.remove(); marker = null; }
+        clearTimeout(markerTimer);
+        marker = new maplibregl.Marker({ color: "#b3121b" }).setLngLat(f.center).addTo(map);
+        markerTimer = setTimeout(() => { if (marker) { marker.remove(); marker = null; } }, 4000);
         if (f.coord) {
-          marker = new maplibregl.Marker({ color: "#b3121b" }).setLngLat(f.center).addTo(map);
           map.flyTo({ center: f.center, zoom: 15 });
         } else if (f.bbox && f.bbox[0] !== f.bbox[2]) {
           map.fitBounds([[f.bbox[0], f.bbox[1]], [f.bbox[2], f.bbox[3]]], { maxZoom: 15, padding: 40 });

@@ -343,55 +343,6 @@
       "paint": {"fill-color": "#a7cde6"}
     },
     {
-      "id": "park-band",
-      "type": "line",
-      "source": "omt",
-      "source-layer": "park",
-      "minzoom": 10,
-      "filter": [
-        "all",
-        ["==", ["geometry-type"], "Polygon"],
-        [
-          "!",
-          [
-            "any",
-            ["in", "natura", ["downcase", ["coalesce", ["get", "class"], ""]]],
-            ["in", "natura 2000", ["downcase", ["coalesce", ["get", "name"], ""]]],
-            [
-              "in",
-              ["downcase", ["coalesce", ["get", "class"], ""]],
-              [
-                "literal",
-                [
-                  "special_area_of_conservation",
-                  "special_protection_area",
-                  "site_of_community_importance",
-                  "sic",
-                  "zps",
-                  "zsc"
-                ]
-              ]
-            ],
-            [
-              "in",
-              ["slice", ["downcase", ["coalesce", ["get", "name"], ""]], 0, 4],
-              ["literal", ["sic ", "zps ", "zsc ", "psic"]]
-            ],
-            ["in", "sito di importanza", ["downcase", ["coalesce", ["get", "name"], ""]]],
-            ["in", "zona speciale", ["downcase", ["coalesce", ["get", "name"], ""]]],
-            ["in", "zona di protezione speciale", ["downcase", ["coalesce", ["get", "name"], ""]]]
-          ]
-        ]
-      ],
-      "layout": {"line-join": "round"},
-      "paint": {
-        "line-color": "#7b3f98",
-        "line-opacity": 0.2,
-        "line-width": ["interpolate", ["linear"], ["zoom"], 10, 3, 11, 4, 14, 7, 17, 10],
-        "line-offset": ["interpolate", ["linear"], ["zoom"], 10, 1.5, 11, 2, 14, 3.5, 17, 5]
-      }
-    },
-    {
       "id": "park-outline",
       "type": "line",
       "source": "omt",
@@ -435,7 +386,6 @@
       "layout": {"line-join": "round"},
       "paint": {
         "line-color": "#7b3f98",
-        "line-opacity": 0.8,
         "line-width": ["interpolate", ["linear"], ["zoom"], 10, 0.8, 14, 1.3, 17, 1.8]
       }
     },
