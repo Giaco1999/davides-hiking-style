@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Davide's Hiking Style — a MapLibre map style</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="icons/hut.svg">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.css">
+  <script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>
+  <script src="config.js"></script>
+  <style>
+    html, body, #map { margin: 0; height: 100%; }
+    body { font: 13px/1.45 system-ui, sans-serif; color: #2b2a28; }
+
+    /* ---- Legend panel, bottom left, two levels: legend, then design notes */
+    .panel {
+      position: absolute; left: 10px; bottom: 46px; z-index: 2;
+      width: 250px; max-height: calc(100vh - 70px);
+      display: flex; flex-direction: column;
+      background: rgba(246, 242, 233, 0.96); border-radius: 6px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.25);
+      transition: width .2s;
+    }
+    .panel.wide { width: min(400px, calc(100vw - 80px)); }
+    .panel header {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      padding: 8px 12px; cursor: pointer; user-select: none;
+    }
+    .panel h1 { font-size: 15px; margin: 0; }
+    .chev { font-size: 12px; color: #5a554e; transition: transform .2s; }
+    .panel.collapsed .chev { transform: rotate(180deg); }
+    .panel.collapsed .body { display: none; }
+    .body { padding: 0 12px 10px; overflow-y: auto; }
+    .body > p { margin: 0 0 8px; color: #5a554e; }
+    .legend { list-style: none; margin: 0 0 8px; padding: 0; }
+    .legend li { display: flex; align-items: center; gap: 8px; margin: 3px 0; }
+    .legend svg { flex: none; }
+    .legend .ico { flex: none; width: 34px; text-align: center; }
+    .legend .ico img { display: block; margin: 0 auto; }
+    .panel a { color: #b3121b; }
+    .foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .linkbtn {
+      font: inherit; font-weight: 600; color: #b3121b; background: none;
+      border: 0; padding: 0; cursor: pointer;
+    }
+    .notes { display: none; border-top: 1px solid #ddd3c4; margin-top: 10px; padding-top: 8px; }
+    .panel.wide .notes { display: block; }
+    .notes h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em;
+                color: #5a554e; margin: 12px 0 4px; }
+    .notes h2:first-child { margin-top: 0; }
+    .notes p, .notes li { margin: 0 0 6px; }
+    .notes ul { padding-left: 16px; margin: 0; }
+    .notes .muted { color: #5a554e; font-size: 12px; }
+
+    /* ---- Controls, bottom right */
+    .maplibregl-ctrl-group button.ctrl-3d { width: auto; padding: 0 8px; font: 600 12px system-ui, sans-serif; }
+    .maplibregl-ctrl-group button.ctrl-3d.on { background: #2b2a28; color: #fff; }
+    .zoom-badge {
+      background: rgba(246, 242, 233, 0.96); border-radius: 4px; padding: 3px 8px;
+      font: 600 12px/1.4 system-ui, sans-serif; box-shadow: 0 0 0 2px rgba(0,0,0,.1);
+      text-align: center;
+    }
+    .mt-logo { position: absolute; left: 10px; bottom: 10px; z-index: 2; }
+    .mt-logo img { width: 100px; display: block; }
+  </style>
+</head>
+<body>
+<div id="map"></div>
+<a class="mt-logo" href="https://www.maptiler.com"><img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
+
+<div class="panel" id="panel">
+  <header id="panelHead" title="Show / hide legend">
+    <h1>Davide's Hiking Style</h1><span class="chev">▼</span>
+  </header>
+  <div class="body">
+    <p>A hiking map style written in the MapLibre style specification, on MapTiler data.</p>
+    <ul class="legend">
+      <li><svg width="34" height="6"><line x1="0" y1="3" x2="34" y2="3" stroke="#d0202a" stroke-width="2" stroke-dasharray="8 3"/></svg>Marked trail, easy</li>
+      <li><svg width="34" height="6"><line x1="0" y1="3" x2="34" y2="3" stroke="#d0202a" stroke-width="2" stroke-dasharray="4 3"/></svg>Mountain trail</li>
+      <li><svg width="34" height="6"><line x1="0" y1="3" x2="34" y2="3" stroke="#d0202a" stroke-width="2.4" stroke-dasharray="1.3 3"/></svg>Alpine trail</li>
+      <li><svg width="34" height="10"><line x1="0" y1="5" x2="34" y2="5" stroke="#2b2a28" stroke-width="2"/><line x1="0" y1="5" x2="34" y2="5" stroke="#2b2a28" stroke-width="8" stroke-dasharray="0.8 6"/></svg>Via ferrata</li>
+      <li><svg width="34" height="6"><line x1="0" y1="3" x2="34" y2="3" stroke="#6b4a2b" stroke-width="1.2" stroke-dasharray="5 3"/></svg>Unmarked path</li>
+      <li><svg width="34" height="10"><line x1="0" y1="5" x2="34" y2="5" stroke="#f4c4c6" stroke-width="7" stroke-linecap="round"/><line x1="0" y1="5" x2="34" y2="5" stroke="#d0202a" stroke-width="2" stroke-dasharray="4 3"/></svg>National long-distance trail</li>
+      <li><span class="ico"><img src="icons/hut.svg" alt=""></span>Mountain hut (rifugio)</li>
+      <li><span class="ico"><img src="icons/bivouac.svg" alt=""></span>Bivouac, shelter</li>
+      <li><span class="ico"><img src="icons/viewpoint.svg" alt=""></span>Viewpoint</li>
+      <li><span class="ico"><img src="icons/cave.svg" alt=""></span>Cave</li>
+    </ul>
+    <div class="foot">
+      <button class="linkbtn" id="notesBtn">Design notes ▸</button>
+      <a href="https://github.com/Giaco1999/davides-hiking-style">Source on GitHub</a>
+    </div>
+
+    <div class="notes">
+      <h2>Aim</h2>
+      <p>A hiking map for the Dolomites and north-east Italy that reads like a printed 1:25,000 sheet at z13 and stays legible from the regional overview (z7–8) to footpath detail (z16).</p>
+
+      <h2>Hierarchy</h2>
+      <ul>
+        <li>Red is reserved for marked trails, following Italian CAI maps. Roads stay pale and narrow; motorways are pink.</li>
+        <li>Content enters by scale: the main peaks from z8, more from z11 and all from z13; contours from index lines only below z12 to every line from z14; trail numbers, hut names and saddles from z13.</li>
+      </ul>
+
+      <h2>Trails</h2>
+      <ul>
+        <li>Difficulty is read from the dash, not the colour: easy (SAC T1), mountain (T2–T3) and alpine (T4–T6) share one red, so the map also works in greyscale and for colour-blind readers.</li>
+        <li>Markings run beside their line, not on it. A zoom-dependent offset of slightly more than half a road width keeps a route that follows a road visible next to the road.</li>
+        <li>National long-distance trails are shown from z7 as a thin red line, and from z11 as a pale band under the normal trail symbol.</li>
+      </ul>
+
+      <h2>Relief</h2>
+      <ul>
+        <li>Warm hillshade lit from the north-west, lighter at small scales so the Alps do not dominate the overview.</li>
+        <li>Index contours are heavier than intermediate ones; contours on glaciers are blue.</li>
+      </ul>
+
+      <h2>Settlements</h2>
+      <ul>
+        <li>Built-up areas are a solid tint from z7, darker at small scales so towns keep a footprint.</li>
+        <li>From z12 to z14 buildings are drawn with a thick outline in their own colour, so neighbouring buildings merge into a built-up mass; full footprints from z14.</li>
+      </ul>
+
+      <h2>Points and labels</h2>
+      <ul>
+        <li>Huts, bivouacs, viewpoints and caves use custom icons. Huts are the destinations on a mountain map, so their names win over peak names when labels collide.</li>
+        <li>Lake names are straight, horizontal and placed above every other label; lakes are drawn over rivers.</li>
+        <li>Labels avoid the red trails: a row of invisible symbols along each trail occupies collision space, and hut, bivouac and peak names choose a free position around their point.</li>
+        <li>Trail numbers and river names sit beside their line, not on it.</li>
+      </ul>
+
+      <h2>Data and limits</h2>
+      <p>MapTiler Planet v3 and v4, Outdoor, Contours and Terrain RGB tiles, © OpenStreetMap contributors. Huts and bivouacs come from the base map's POI layer, viewpoints and caves from the outdoor layer, after checking in the tiles where each type is actually present. Trails with no difficulty tag are drawn as easy, and many viewpoints and shelters have no name in the source data.</p>
+      <p class="muted">The work was significantly sped up by using Claude (Anthropic) to write the style code. The cartographic choices, and the review of every result, are mine.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // The MapTiler key lives in config.js, so this page can change without
+  // touching it. The sprite needs an absolute URL, built from this page's.
+  // A version tag on the URLs makes the browser fetch fresh icons and style
+  // instead of old cached copies.
+  const V = Date.now();
+  const SPRITE_URL = new URL("sprite", location.href).href + "?v=" + V;
+
+  // ---- Legend panel: header collapses it, "Design notes" widens it
+  const panel = document.getElementById("panel");
+  const notesBtn = document.getElementById("notesBtn");
+  if (window.innerWidth < 600) panel.classList.add("collapsed");
+  document.getElementById("panelHead").addEventListener("click", () => {
+    panel.classList.toggle("collapsed");
+  });
+  notesBtn.addEventListener("click", () => {
+    const wide = panel.classList.toggle("wide");
+    notesBtn.textContent = wide ? "Design notes ▾" : "Design notes ▸";
+  });
+
+  // ---- Small custom controls for the bottom-right group
+  class Toggle3D {
+    onAdd(map) {
+      this.el = document.createElement("div");
+      this.el.className = "maplibregl-ctrl maplibregl-ctrl-group";
+      const b = document.createElement("button");
+      b.className = "ctrl-3d"; b.type = "button"; b.textContent = "3D";
+      b.title = "Toggle 3D terrain";
+      b.addEventListener("click", () => {
+        const on = !map.getTerrain();
+        map.setTerrain(on ? { source: "dem", exaggeration: 1.3 } : null);
+        map.easeTo({ pitch: on ? 60 : 0, duration: 800 });
+        b.classList.toggle("on", on);
+      });
+      this.el.appendChild(b);
+      return this.el;
+    }
+    onRemove() { this.el.remove(); }
+  }
+  class ZoomBadge {
+    onAdd(map) {
+      this.el = document.createElement("div");
+      this.el.className = "maplibregl-ctrl zoom-badge";
+      const show = () => { this.el.textContent = "z " + map.getZoom().toFixed(1); };
+      map.on("zoom", show); show();
+      return this.el;
+    }
+    onRemove() { this.el.remove(); }
+  }
+
+  fetch("style.json?v=" + V, { cache: "no-store" })
+    .then(r => r.text())
+    .then(text => JSON.parse(text.replaceAll("{key}", window.MAPTILER_KEY)
+                                 .replaceAll("{sprite}", SPRITE_URL)))
+    .then(style => {
+      const map = new maplibregl.Map({
+        container: "map",
+        style,
+        hash: true,
+        maxPitch: 80
+      });
+      window.map = map;  // handy for inspecting the map from the browser console
+
+      // bottom right, stacked upwards from the attribution:
+      // scale, zoom and compass, 3D, current zoom
+      map.addControl(new maplibregl.ScaleControl({ unit: "metric" }), "bottom-right");
+      map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), "bottom-right");
+      map.addControl(new Toggle3D(), "bottom-right");
+      map.addControl(new ZoomBadge(), "bottom-right");
+    });
+</script>
+</body>
+</html>

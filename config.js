@@ -1,0 +1,3 @@
+// MapTiler API key. Restrict it to your domains in MapTiler Cloud
+// (giaco1999.github.io, and localhost:8000 only while testing).
+window.MAPTILER_KEY = "PASTE_YOUR_KEY_HERE";
