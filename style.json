@@ -1126,9 +1126,9 @@
       ],
       "layout": {"line-join": "round", "line-cap": "round"},
       "paint": {
-        "line-color": "#ffffff",
-        "line-opacity": 0.75,
-        "line-width": ["interpolate", ["linear"], ["zoom"], 11, 2, 14, 3.5, 17, 6]
+        "line-color": "#fbf8f1",
+        "line-opacity": 0.45,
+        "line-width": ["interpolate", ["linear"], ["zoom"], 11, 1.4, 14, 2.4, 17, 4]
       }
     },
     {
