@@ -104,8 +104,7 @@
       <h2>Trails</h2>
       <ul>
         <li>Difficulty is read from the dash, not the colour: easy (SAC T1), mountain (T2–T3) and alpine (T4–T6) share one red, so the map also works in greyscale and for colour-blind readers.</li>
-        <li>Markings run beside their line, not on it. A zoom-dependent offset of slightly more than half a road width keeps a route that follows a road visible next to the road.</li>
-        <li>National long-distance trails are shown from z7 as a thin red line, and from z11 as a pale band under the normal trail symbol.</li>
+                <li>National long-distance trails are shown from z7 as a thin red line, and from z11 as a pale band under the normal trail symbol.</li>
       </ul>
 
       <h2>Relief</h2>
@@ -123,13 +122,13 @@
       <h2>Points and labels</h2>
       <ul>
         <li>Huts, bivouacs, viewpoints and caves use custom icons. Huts are the destinations on a mountain map, so their names win over peak names when labels collide.</li>
-        <li>Lake names are straight, horizontal and placed above every other label; lakes are drawn over rivers.</li>
+        <li>Every named lake has one straight, horizontal name at its label point, sized by the lake's area and placed above every other label; lakes are drawn over rivers.</li>
         <li>Labels avoid the red trails: a row of invisible symbols along each trail occupies collision space, and hut, bivouac and peak names choose a free position around their point.</li>
         <li>Trail numbers and river names sit beside their line, not on it.</li>
       </ul>
 
       <h2>Data and limits</h2>
-      <p>MapTiler Planet v3 and v4, Outdoor, Contours and Terrain RGB tiles, © OpenStreetMap contributors. Huts and bivouacs come from the base map's POI layer, viewpoints and caves from the outdoor layer, after checking in the tiles where each type is actually present. Trails with no difficulty tag are drawn as easy, and many viewpoints and shelters have no name in the source data.</p>
+      <p>MapTiler Planet v3 and v4, Outdoor, Contours and Terrain RGB tiles, © OpenStreetMap contributors. Huts and bivouacs come from the base map's POI layer, viewpoints and caves from the outdoor layer, lake label points from Planet v4, after checking in the tiles where each type is actually present. Trails with no difficulty tag are drawn as easy, and many viewpoints and shelters have no name in the source data.</p>
       <p class="muted">The work was significantly sped up by using Claude (Anthropic) to write the style code. The cartographic choices, and the review of every result, are mine.</p>
     </div>
   </div>
@@ -195,10 +194,11 @@
         style,
         hash: true,
         maxPitch: 80,
-        // The style is designed and checked for north-east Italy: the view stays
-        // between Lake Garda, the Alpine divide and Trieste.
-        maxBounds: [[10.2, 45.3], [14.1, 47.2]],
-        minZoom: 7
+        // The style is designed and checked for north-east Italy. The bounds are
+        // wide enough to zoom out to z6 (the Alps as a whole) on a laptop screen,
+        // without letting the map wander across the world.
+        maxBounds: [[4.5, 42.0], [21.5, 50.0]],
+        minZoom: 6
       });
       window.map = map;  // handy for inspecting the map from the browser console
 

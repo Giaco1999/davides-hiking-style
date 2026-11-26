@@ -11,7 +11,7 @@ MapTiler data. Live demo: `https://giaco1999.github.io/davides-hiking-style/`
 | `omt` | Planet v3 (OpenMapTiles schema) | land cover, water, roads, paths, peaks, places |
 | `contours` | Contours v2 | contour lines and index labels |
 | `outdoor` | Outdoor | marked trails, difficulty, trail numbers, huts, bivouacs, viewpoints, caves |
-| `v4` | Planet v4 | buildings (from z12) |
+| `v4` | Planet v4 | buildings (from z12), lake label points |
 | `dem` | Terrain RGB v2 | hillshade and 3D terrain |
 
 ## Design choices
@@ -30,20 +30,18 @@ MapTiler data. Live demo: `https://giaco1999.github.io/davides-hiking-style/`
   get bold names and beat peak and place names when labels collide. Huts,
   bivouacs, viewpoints and caves use a small custom sprite (`icons/`, built into
   `sprite.png` / `sprite@2x.png`).
-- **Markings beside the line.** All trail lines share a zoom-dependent offset of
-  slightly more than half a road width, so routes that follow roads stay
-  visible next to the road.
 - **Labels avoid trails.** An invisible symbol layer along the marked trails
   takes up collision space; hut, bivouac and peak names pick a free position.
-- **Lakes are landmarks.** Lake names are straight, horizontal and placed above
-  every other label; lakes are drawn over rivers.
+- **Lakes are landmarks.** One straight, horizontal name per lake at its label
+  point (Planet v4 `water_centroid`), sized by area and placed above every
+  other label; lakes are drawn over rivers.
 - **Relief.** A warm, north-west-lit hillshade blends with the paper colour;
   glacier contours are blue, following printed alpine maps.
 
 ## Area
 
-The map is limited to north-east Italy (Lake Garda to Trieste, up to the
-Alpine divide, from z7), the area the style was designed and checked for.
+The style is designed and checked for north-east Italy. The view is limited
+to the Alps and their surroundings, from z6.
 
 ## Run it
 
