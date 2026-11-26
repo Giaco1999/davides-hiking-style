@@ -160,6 +160,17 @@
       }
     },
     {
+      "id": "glacier-overlay",
+      "type": "fill",
+      "source": "omt",
+      "source-layer": "landcover",
+      "filter": ["any", ["==", ["get", "class"], "ice"], ["==", ["get", "subclass"], "glacier"]],
+      "paint": {
+        "fill-color": "#e6f2fa",
+        "fill-opacity": ["interpolate", ["linear"], ["zoom"], 6, 0.85, 12, 0.75, 16, 0.65]
+      }
+    },
+    {
       "id": "contour",
       "type": "line",
       "source": "contours",
@@ -1126,8 +1137,30 @@
       "layout": {"line-join": "round", "line-cap": "butt"},
       "paint": {
         "line-color": "#d1234a",
-        "line-width": ["interpolate", ["linear"], ["zoom"], 11, 1.2, 13, 2, 15, 3, 17, 4],
-        "line-dasharray": [3, 1]
+        "line-width": ["interpolate", ["linear"], ["zoom"], 11, 1.2, 13, 2, 15, 3, 17, 4]
+      }
+    },
+    {
+      "id": "trail-gaps",
+      "type": "line",
+      "source": "outdoor",
+      "source-layer": "trail",
+      "minzoom": 11,
+      "filter": [
+        "all",
+        ["in", ["get", "class"], ["literal", ["hiking", "foot"]]],
+        [
+          "any",
+          ["!=", ["coalesce", ["get", "ref"], ""], ""],
+          ["!=", ["coalesce", ["get", "name"], ""], ""],
+          ["!=", ["coalesce", ["get", "network"], ""], ""]
+        ]
+      ],
+      "layout": {"line-join": "round", "line-cap": "butt"},
+      "paint": {
+        "line-color": "#f4c4c6",
+        "line-width": ["interpolate", ["linear"], ["zoom"], 11, 1.5, 13, 2.3, 15, 3.3, 17, 4.3],
+        "line-dasharray": [1, 3]
       }
     },
     {
