@@ -1050,7 +1050,7 @@
       "filter": ["all", ["==", ["get", "class"], "track"], ["!=", ["get", "brunnel"], "tunnel"]],
       "layout": {"line-cap": "butt", "line-join": "round"},
       "paint": {
-        "line-color": "#fbf8f1",
+        "line-color": "#ecdcbd",
         "line-width": ["interpolate", ["linear"], ["zoom"], 13, 0.8, 15, 1.8, 17, 3.2]
       }
     },
@@ -1242,22 +1242,27 @@
       "source-layer": "trail",
       "minzoom": 12,
       "filter": ["==", ["get", "class"], "via_ferrata"],
+      "layout": {"line-join": "round", "line-cap": "round"},
       "paint": {
-        "line-color": "#2b2a28",
-        "line-width": ["interpolate", ["linear"], ["zoom"], 12, 1, 16, 2]
+        "line-color": "#d0202a",
+        "line-width": ["interpolate", ["linear"], ["zoom"], 12, 1.2, 14, 2, 17, 3]
       }
     },
     {
-      "id": "via-ferrata-ticks",
-      "type": "line",
+      "id": "via-ferrata-icons",
+      "type": "symbol",
       "source": "outdoor",
       "source-layer": "trail",
       "minzoom": 13,
       "filter": ["==", ["get", "class"], "via_ferrata"],
-      "paint": {
-        "line-color": "#2b2a28",
-        "line-dasharray": [0.3, 2.5],
-        "line-width": ["interpolate", ["linear"], ["zoom"], 13, 5, 17, 9]
+      "layout": {
+        "symbol-placement": "line",
+        "symbol-spacing": ["interpolate", ["linear"], ["zoom"], 13, 90, 17, 140],
+        "icon-image": "carabiner",
+        "icon-size": ["interpolate", ["linear"], ["zoom"], 13, 0.75, 16, 1],
+        "icon-rotation-alignment": "viewport",
+        "icon-allow-overlap": true,
+        "icon-ignore-placement": true
       }
     },
     {
